@@ -1,0 +1,34 @@
+{
+    "name": "MetaCoreIntegration.Grabbing",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30",
+        "GUID:b7d4ae07a8ade8f448d49c1320944362",
+        "GUID:b08c2b33b71cf48448b8fa9a2c8cc959",
+        "GUID:0fcb95827765196489d66b076928288d",
+        "GUID:2a230cb87a1d3ba4a98bdc0ddae76e6c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "XRHANDS_AVAILABLE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.hands",
+            "expression": "[1,10000]",
+            "define": "XRHANDS_AVAILABLE"
+        },
+        {
+            "name": "com.meta.xr.sdk.interaction.ovr",
+            "expression": "[1,10000]",
+            "define": "META_INTERACTION_AVAILABLE"
+        }
+    ],
+    "noEngineReferences": false
+}

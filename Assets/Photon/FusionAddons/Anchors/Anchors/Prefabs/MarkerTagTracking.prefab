@@ -1,0 +1,243 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4749376747935687379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4872398773678675536}
+  - component: {fileID: 1561851646391387600}
+  m_Layer: 0
+  m_Name: ArUcoMarkerTracking
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4872398773678675536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749376747935687379}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 512, y: 512, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8085773829278515589}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1561851646391387600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749376747935687379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28913ac5693f7e544baeeca1d0e9a789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dictionaryId: 0
+  _markerLength: 0.1
+  _poseFilterCoefficient: 0.5
+  _divideNumber: 1
+  trackingProcessInProgress: 0
+  rigOrigin: {fileID: 0}
+--- !u!1 &5924800065612823672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2923770879997618402}
+  m_Layer: 0
+  m_Name: CameraAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2923770879997618402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5924800065612823672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8085773829278515589}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6692640247574437307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8085773829278515589}
+  - component: {fileID: 5204099705703478373}
+  m_Layer: 0
+  m_Name: MarkerTagTracking
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8085773829278515589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6692640247574437307}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1334579999613548505}
+  - {fileID: 4872398773678675536}
+  - {fileID: 2923770879997618402}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5204099705703478373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6692640247574437307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824ec263ebc6fed47a83ae3c109edba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionTriggerMode: 0
+  irlAnchorsInfo: []
+  predefinedIrlAnchorIds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  predefinedIrlAnchorsPrefix: 
+  detectedIrlAnchorTagPrefab: {fileID: 377792464933371611, guid: de52d79def3dc4044b4d3ed9f3e58815, type: 3}
+  stabilizedIrlAnchorTagPrefab: {fileID: 6522280100225247590, guid: bdc3442010cb77144bc640ea8dcd6dcf, type: 3}
+  representationIrlAnchorTagPrefab: {fileID: 1467270428709199758, guid: 699c2018d34050844a22c504d811860a, type: 3}
+  usePoseHistory: 1
+  historyDuration: 6
+  expectedDetectedAnchorsStabilityDuration: 1
+  maxDetectedToStabilizedDistanceForLongStability: 0.1
+  maxFps: 72
+  positionStabilityThreshold: -1
+  rotationStabilityThreshold: -1
+  averageSpeedLimitForStability: -1
+  disableIrlAnchorsAtStart: 1
+  displayStabilizedAnchor: 1
+  displayRepresentationAnchor: 1
+  representationConvergenceToRealtimePoseFactor: 0.05
+  representationConvergenceToStablePoseFactor: 0.15
+  representationTeleport: 0.5
+  stabilitydetectabilityRangeScale: 30
+  spawnedDetectedIrlAnchorRoot: {fileID: 0}
+  spawnedStabilizedIrlAnchorRoot: {fileID: 0}
+  spawnedRepresentationIrlAnchorRoot: {fileID: 0}
+  minimalSpawnedIrlAnchorId: 0
+  OnDetectedAnchorsCountChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  spawnedIrlAnchors: []
+  detectedAnchorsCount: 0
+  invalidateStabilityHistoryOnRigMove: 1
+--- !u!1 &6763801965284065242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334579999613548505}
+  - component: {fileID: 7129411855726565220}
+  - component: {fileID: 557671422062719141}
+  m_Layer: 0
+  m_Name: ArucoTrackingCoordinator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1334579999613548505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763801965284065242}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8085773829278515589}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7129411855726565220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763801965284065242}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20577df24ab2ad148a9e5549d024a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_webCamTextureManager: {fileID: 0}
+  m_cameraAnchor: {fileID: 2923770879997618402}
+  m_cameraCanvas: {fileID: 0}
+  m_resultRawImage: {fileID: 0}
+  m_canvasDistance: 1
+  m_arucoMarkerTracking: {fileID: 1561851646391387600}
+  m_markerGameObjectPairs: []
+  onTrackingComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  trackingMode: 0
+--- !u!114 &557671422062719141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763801965284065242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66defc9a0725e414aaad0d7822c0007b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectsRoot: {fileID: 0}
+  namePartsToRemove:
+  - Tag
+  - (
+  - )
+  disableCoordinatorInEditor: 1
+  forceLateUpdateTrackingInEditor: 1

@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7608f7adbf37db748b1d4e7b24063673, type: 3}
+  m_Name: DependenciesAnalysis
+  m_EditorClassIdentifier: 
+  basePath: <Application.dataPath>/Photon/FusionAddons
+  isRequestingAnalysis: 0
+  usePackage: 1
+  detectSubPackage: 1
+  basePackageFolder: <Application.dataPath>/Photon/FusionAddons
+  packagePrefix: AddOn
+  usePackageLinks: 0
+  onlyDisplayPackages: 0
+  displayPackagesAsClasses: 0
+  filterTermsInAnalysis:
+  - Legacy
+  - Automation
+  - XRShared.Core
+  - GesturesDetection
+  - HandRepresentation
+  - Editor
+  - Desktop
+  requiredTermInDependentAssemblies: []
+  requiredTermInDependenciesAssemblies: []
+  requiredTermInPackages: []
+  replacementInNames:
+  - from: AddOn.XRShrared
+    to: AddOn.XRShared
+    padSpaces: 342
+    exactMatch: 1
+  onlyDisplayAssemblyWithLinks: 0
+  header: '@startuml
+
+    hide circle
+
+    hide empty methods
+
+    hide empty members
+
+    skinparam
+    linetype ortho
+
+'
+  footer: '@enduml
+
+'
+  analysisResult: "@startuml\nhide circle\nhide empty methods\nhide empty members\nskinparam
+    linetype ortho\npackage \"AddOn.Physics\" as AddOn_Physics { \n  class \"Fusion.Addons.Physics\"
+    as Fusion_Addons_Physics \n}\npackage \"AddOn.AudioRoom\" as AddOn_AudioRoom
+    { \n  class \"AudioRoom\" as AudioRoom \n}\npackage \"AddOn.XRShared\\Interactions\"
+    as AddOn_XRShared\\Interactions { \n  class \"XRShared.Interaction.Locomotion\"
+    as XRShared_Interaction_Locomotion \n  class \"XRShared.Interaction.HardwareBasedGrabbing\"
+    as XRShared_Interaction_HardwareBasedGrabbing \n  class \"XRShared.Interaction.Touch\"
+    as XRShared_Interaction_Touch \n  class \"XRShared.Interaction.Beamer\" as XRShared_Interaction_Beamer
+    \n  class \"XRShared.Interaction.UI\" as XRShared_Interaction_UI \n  class \"XRShared.RemoteBasedGrabbing\"
+    as XRShared_RemoteBasedGrabbing \n}\npackage \"AddOn.DynamicAudioGroup\" as AddOn_DynamicAudioGroup
+    { \n  class \"DynamicAudioGroup\" as DynamicAudioGroup \n}\npackage \"AddOn.BlockingContact\"
+    as AddOn_BlockingContact { \n  class \"BlockingContact\" as BlockingContact \n}\npackage
+    \"AddOn.VisionOsHelpers\" as AddOn_VisionOsHelpers { \n  class \"VisionOSHelpers\"
+    as VisionOSHelpers \n}\npackage \"AddOn.ChatBubble\" as AddOn_ChatBubble { \n 
+    class \"ChatBubble\" as ChatBubble \n}\npackage \"AddOn.ConnectionManager\" as
+    AddOn_ConnectionManager { \n  class \"ConnectionManager\" as ConnectionManager
+    \n}\npackage \"AddOn.DataSyncHelpers\" as AddOn_DataSyncHelpers { \n  class \"DataSyncHelpers\"
+    as DataSyncHelpers \n  class \"DataSyncHelpers.DataTools\" as DataSyncHelpers_DataTools
+    \n}\npackage \"AddOn.Drawing\" as AddOn_Drawing { \n  class \"Drawing\" as Drawing
+    \n}\npackage \"AddOn.InteractiveMenu\" as AddOn_InteractiveMenu { \n  class \"InteractiveMenu\"
+    as InteractiveMenu \n}\npackage \"AddOn.ExtendedRigSelection\" as AddOn_ExtendedRigSelection
+    { \n  class \"ExtendedRigSelection\" as ExtendedRigSelection \n}\npackage \"AddOn.Feedback\"
+    as AddOn_Feedback { \n  class \"Feedback\" as Feedback \n}\npackage \"AddOn.LineDrawing\"
+    as AddOn_LineDrawing { \n  class \"LineDrawing\" as LineDrawing \n  class \"LineDrawing.XRShared\"
+    as LineDrawing_XRShared \n}\npackage \"AddOn.LocomotionValidation\" as AddOn_LocomotionValidation
+    { \n  class \"LocomotionValidation\" as LocomotionValidation \n}\npackage \"AddOn.Magnets\"
+    as AddOn_Magnets { \n  class \"Magnets\" as Magnets \n}\npackage \"AddOn.MetaCoreIntegration\"
+    as AddOn_MetaCoreIntegration { \n  class \"MetaCoreIntegration\" as MetaCoreIntegration
+    \n}\npackage \"AddOn.XRShared\" as AddOn_XRShared { \n  class \"XRShared.BaseRig\"
+    as XRShared_BaseRig \n  class \"XRHandsSynchronization\" as XRHandsSynchronization
+    \n  class \"XRShared.XRHands\" as XRShared_XRHands \n  class \"XRShared.SimpleHands\"
+    as XRShared_SimpleHands \n}\npackage \"AddOn.MXInkIntegration\" as AddOn_MXInkIntegration
+    { \n  class \"MXIntegration.Logitech\" as MXIntegration_Logitech \n  class \"MXInkIntegration\"
+    as MXInkIntegration \n}\npackage \"AddOn.PositionDebugging\" as AddOn_PositionDebugging
+    { \n  class \"PositionDebugging\" as PositionDebugging \n}\npackage \"AddOn.Screensharing\"
+    as AddOn_Screensharing { \n  class \"Screensharing\" as Screensharing \n  class
+    \"Screensharing.MetaWebcam\" as Screensharing_MetaWebcam \n  class \"Screensharing.uWindowsCapture\"
+    as Screensharing_uWindowsCapture \n}\npackage \"AddOn.SocialDistancing\" as AddOn_SocialDistancing
+    { \n  class \"SocialDistancing\" as SocialDistancing \n}\npackage \"AddOn.Spaces\"
+    as AddOn_Spaces { \n  class \"Spaces\" as Spaces \n}\npackage \"AddOn.StickyNotes\"
+    as AddOn_StickyNotes { \n  class \"StickyNotes\" as StickyNotes \n}\npackage
+    \"AddOn.TextureDrawing\" as AddOn_TextureDrawing { \n  class \"TextureDrawing\"
+    as TextureDrawing \n  class \"TextureDrawing.Pen\" as TextureDrawing_Pen \n}\npackage
+    \"AddOn.StructureCohesion\" as AddOn_StructureCohesion { \n  class \"StructureCohesion\"
+    as StructureCohesion \n  class \"StructureCohesion.HardwareBasedGrabbing\" as
+    StructureCohesion_HardwareBasedGrabbing \n}\npackage \"AddOn.UISynchronization\"
+    as AddOn_UISynchronization { \n  class \"UISynchronization\" as UISynchronization
+    \n}\npackage \"AddOn.VirtualKeyboard\" as AddOn_VirtualKeyboard { \n  class \"VirtualKeyboard\"
+    as VirtualKeyboard \n}\npackage \"AddOn.VoiceHelpers\" as AddOn_VoiceHelpers
+    { \n  class \"VoiceHelpers\" as VoiceHelpers \n  class \"VoiceHelpers.Tools\"
+    as VoiceHelpers_Tools \n}\npackage \"AddOn.XRITIntegration\" as AddOn_XRITIntegration
+    { \n  class \"XRShared.XRIT\" as XRShared_XRIT \n}\nAudioRoom --> XRShared_Interaction_Locomotion\nAudioRoom
+    --> DynamicAudioGroup\nXRShared_Interaction_Locomotion --> XRShared_Interaction_UI\nXRShared_Interaction_Locomotion
+    --> XRShared_Interaction_Beamer\nBlockingContact --> VisionOSHelpers\nVisionOSHelpers
+    --> XRShared_Interaction_HardwareBasedGrabbing\nVisionOSHelpers --> XRShared_Interaction_Touch\nVisionOSHelpers
+    --> XRHandsSynchronization\nVisionOSHelpers --> XRShared_BaseRig\nVisionOSHelpers
+    --> XRShared_Interaction_Locomotion\nVisionOSHelpers --> XRShared_Interaction_Beamer\nChatBubble
+    --> AudioRoom\nChatBubble --> XRShared_Interaction_Locomotion\nChatBubble -->
+    DynamicAudioGroup\nDataSyncHelpers_DataTools --> DataSyncHelpers\nDrawing -->
+    XRShared_Interaction_HardwareBasedGrabbing\nDrawing --> DataSyncHelpers\nDrawing
+    --> BlockingContact\nDrawing --> InteractiveMenu\nExtendedRigSelection --> ConnectionManager\nLineDrawing
+    --> DataSyncHelpers\nLineDrawing_XRShared --> DataSyncHelpers\nLineDrawing_XRShared
+    --> LineDrawing\nLocomotionValidation --> XRShared_Interaction_Locomotion\nMetaCoreIntegration
+    --> XRShared_BaseRig\nMetaCoreIntegration --> XRHandsSynchronization\nMXInkIntegration
+    --> MXIntegration_Logitech\nMXInkIntegration --> LineDrawing\nMXInkIntegration
+    --> XRShared_BaseRig\nPositionDebugging --> Fusion_Addons_Physics\nScreensharing_MetaWebcam
+    --> Screensharing\nSocialDistancing --> XRShared_Interaction_Locomotion\nSpaces
+    --> ConnectionManager\nSpaces --> XRShared_Interaction_Locomotion\nStickyNotes
+    --> TextureDrawing\nStickyNotes --> DataSyncHelpers\nTextureDrawing --> DataSyncHelpers\nStructureCohesion
+    --> Magnets\nStructureCohesion_HardwareBasedGrabbing --> XRShared_Interaction_HardwareBasedGrabbing\nStructureCohesion_HardwareBasedGrabbing
+    --> StructureCohesion\nTextureDrawing_Pen --> TextureDrawing\nTextureDrawing_Pen
+    --> BlockingContact\nTextureDrawing_Pen --> DataSyncHelpers\nVirtualKeyboard
+    --> XRShared_Interaction_Touch\nXRShared_Interaction_Beamer --> XRShared_Interaction_UI\nXRShared_Interaction_Beamer
+    --> XRShared_Interaction_Touch\nXRShared_XRIT --> XRShared_BaseRig\nXRShared_XRIT
+    --> XRShared_XRHands\nXRShared_XRHands --> XRHandsSynchronization\nXRShared_XRHands
+    --> XRShared_BaseRig\n@enduml\n"

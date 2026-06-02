@@ -1,0 +1,21 @@
+{
+    "name": "MetaCoreIntegration.CameraSample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "OCULUS_SDK_AVAILABLE"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

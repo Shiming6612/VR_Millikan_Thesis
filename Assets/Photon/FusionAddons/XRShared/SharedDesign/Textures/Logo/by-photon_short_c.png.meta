@@ -1,0 +1,1365 @@
+fileFormatVersion: 2
+guid: d8787b618a3188e4ab39893fd93895ad
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 140724796704608448
+    second: by-photon_short_c_0
+  - first:
+      213: -2489626299856917781
+    second: by-photon_short_c_1
+  - first:
+      213: 1370997438931499902
+    second: by-photon_short_c_2
+  - first:
+      213: -7076882249406779186
+    second: by-photon_short_c_3
+  - first:
+      213: 3140634543316015025
+    second: by-photon_short_c_4
+  - first:
+      213: -4067614748995971884
+    second: by-photon_short_c_5
+  - first:
+      213: 5057285818767538625
+    second: by-photon_short_c_6
+  - first:
+      213: -8292426951919837683
+    second: by-photon_short_c_7
+  - first:
+      213: -8033824215469185698
+    second: by-photon_short_c_8
+  - first:
+      213: 9070439873305624709
+    second: by-photon_short_c_9
+  - first:
+      213: 2215731868980036504
+    second: by-photon_short_c_10
+  - first:
+      213: -527424179370053040
+    second: by-photon_short_c_11
+  - first:
+      213: -8951409162072379756
+    second: by-photon_short_c_12
+  - first:
+      213: 91847819683915492
+    second: by-photon_short_c_13
+  - first:
+      213: -6320800667546716627
+    second: by-photon_short_c_14
+  - first:
+      213: -4482945041893006153
+    second: by-photon_short_c_15
+  - first:
+      213: 2573400366921632210
+    second: by-photon_short_c_16
+  - first:
+      213: 6022563787603909427
+    second: by-photon_short_c_17
+  - first:
+      213: -5172266777407695397
+    second: by-photon_short_c_18
+  - first:
+      213: 7753595194369469226
+    second: by-photon_short_c_19
+  - first:
+      213: 2546989272041141432
+    second: by-photon_short_c_20
+  - first:
+      213: 8206060235639826220
+    second: by-photon_short_c_21
+  - first:
+      213: -7865199059641887040
+    second: by-photon_short_c_22
+  - first:
+      213: -6238749277446734398
+    second: by-photon_short_c_23
+  - first:
+      213: 8742757317604724452
+    second: by-photon_short_c_24
+  - first:
+      213: 4585541560209928753
+    second: by-photon_short_c_25
+  - first:
+      213: 1977620130569386539
+    second: by-photon_short_c_26
+  - first:
+      213: -2352941700586008155
+    second: by-photon_short_c_27
+  - first:
+      213: -816217389423571414
+    second: by-photon_short_c_28
+  - first:
+      213: 3866992177171680945
+    second: by-photon_short_c_29
+  - first:
+      213: 9100682577977349685
+    second: by-photon_short_c_30
+  - first:
+      213: 3161641578342480610
+    second: by-photon_short_c_31
+  - first:
+      213: -1732337654115807503
+    second: by-photon_short_c_32
+  - first:
+      213: 4249620279910543253
+    second: by-photon_short_c_33
+  - first:
+      213: -7642760309872558519
+    second: by-photon_short_c_34
+  - first:
+      213: 7078301231845101109
+    second: by-photon_short_c_35
+  - first:
+      213: -6036088346418148675
+    second: by-photon_short_c_36
+  - first:
+      213: -946376653733610316
+    second: by-photon_short_c_37
+  - first:
+      213: 2563210623601587567
+    second: by-photon_short_c_38
+  - first:
+      213: 4345877188706665974
+    second: by-photon_short_c_39
+  - first:
+      213: 2791113083268249627
+    second: by-photon_short_c_40
+  - first:
+      213: 5639921578185165844
+    second: by-photon_short_c_41
+  - first:
+      213: -6372807195555625709
+    second: by-photon_short_c_42
+  - first:
+      213: 2785889172959187783
+    second: by-photon_short_c_43
+  - first:
+      213: 8315581778169771121
+    second: by-photon_short_c_44
+  - first:
+      213: 5264277000363271378
+    second: by-photon_short_c_45
+  - first:
+      213: 662572799764640800
+    second: by-photon_short_c_46
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: by-photon_short_c_0
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 92
+        width: 16
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c0daaef474f3f100800000000000000
+      internalID: 140724796704608448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_1
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 94
+        width: 12
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beaee852212137dd0800000000000000
+      internalID: -2489626299856917781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 95
+        width: 10
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7b7b7728e2c60310800000000000000
+      internalID: 1370997438931499902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 94
+        width: 13
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec077dec61dd9cd90800000000000000
+      internalID: -7076882249406779186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_4
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 92
+        width: 17
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b71ca33a76c59b20800000000000000
+      internalID: 3140634543316015025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_5
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 120
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d494fadfedec87c0800000000000000
+      internalID: -4067614748995971884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_6
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 120
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c9724358a61f2640800000000000000
+      internalID: 5057285818767538625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_7
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 120
+        width: 24
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0e51f45f916bec80800000000000000
+      internalID: -8292426951919837683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_8
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 120
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e552709e07f128090800000000000000
+      internalID: -8033824215469185698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_9
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 120
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 580cbece10da0ed70800000000000000
+      internalID: 9070439873305624709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_10
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 120
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8934118356cdfbe10800000000000000
+      internalID: 2215731868980036504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_11
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 120
+        width: 16
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05232b6d0863ea8f0800000000000000
+      internalID: -527424179370053040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_12
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 120
+        width: 16
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49eaf7f2bc436c380800000000000000
+      internalID: -8951409162072379756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_13
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 114
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e667a9fa1f464100800000000000000
+      internalID: 91847819683915492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_14
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 75
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2673da28410848a0800000000000000
+      internalID: -6320800667546716627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_15
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 80
+        width: 26
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b46e5e6c3169c1c0800000000000000
+      internalID: -4482945041893006153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_16
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 85
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d9493fcffd86b320800000000000000
+      internalID: 2573400366921632210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_17
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 89
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33b134d1bd1749350800000000000000
+      internalID: 6022563787603909427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_18
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 89
+        width: 21
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd55f0115ca6838b0800000000000000
+      internalID: -5172266777407695397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_19
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 85
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2b619cbfbd4a9b60800000000000000
+      internalID: 7753595194369469226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_20
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 80
+        width: 26
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b43eb69f39b85320800000000000000
+      internalID: 2546989272041141432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_21
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 75
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2725c68e48c1e170800000000000000
+      internalID: 8206060235639826220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_22
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 20
+        width: 44
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c61f4a702339d290800000000000000
+      internalID: -7865199059641887040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_23
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 40
+        width: 44
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cdff0326928b69a0800000000000000
+      internalID: -6238749277446734398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_24
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 39
+        width: 47
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eec6419573845970800000000000000
+      internalID: 8742757317604724452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_25
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 39
+        width: 33
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1327a17f0cd13af30800000000000000
+      internalID: 4585541560209928753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_26
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 39
+        width: 47
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2aff37e70be17b10800000000000000
+      internalID: 1977620130569386539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_27
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 40
+        width: 44
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a11e5f5dfba85fd0800000000000000
+      internalID: -2352941700586008155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_28
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 61
+        width: 28
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2e49ebdb963ca4f0800000000000000
+      internalID: -816217389423571414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_29
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 69
+        width: 28
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1be488d95e05aa530800000000000000
+      internalID: 3866992177171680945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_30
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 69
+        width: 28
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5361de1569e1c4e70800000000000000
+      internalID: 9100682577977349685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_31
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 61
+        width: 28
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ea7530b34860eb20800000000000000
+      internalID: 3161641578342480610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_32
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 50
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fec467f41085f7e0800000000000000
+      internalID: -1732337654115807503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_33
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 40
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59f2d5e012fa9fa30800000000000000
+      internalID: 4249620279910543253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_34
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 30
+        width: 26
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94e7792cdf57fe590800000000000000
+      internalID: -7642760309872558519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_35
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 30
+        width: 26
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53e4659c77d2b3260800000000000000
+      internalID: 7078301231845101109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_36
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 40
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dba0fd621a18b3ca0800000000000000
+      internalID: -6036088346418148675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_37
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 50
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bc3c72927bcdd2f0800000000000000
+      internalID: -946376653733610316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_38
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 22
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f65b7405b7a529320800000000000000
+      internalID: 2563210623601587567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_39
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 16
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f585561748af4c30800000000000000
+      internalID: 4345877188706665974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_40
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 11
+        width: 16
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b183620bf860cb620800000000000000
+      internalID: 2791113083268249627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_41
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 9
+        width: 12
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41c89c43bc6054e40800000000000000
+      internalID: 5639921578185165844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_42
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 8
+        width: 10
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3158ad6ce9d3f87a0800000000000000
+      internalID: -6372807195555625709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_43
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 9
+        width: 13
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 743d6d9417779a620800000000000000
+      internalID: 2785889172959187783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_44
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 11
+        width: 17
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1743584c191e66370800000000000000
+      internalID: 8315581778169771121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_45
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 16
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d469ed5a087e0940800000000000000
+      internalID: 5264277000363271378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: by-photon_short_c_46
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 22
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 024becf637ee13900800000000000000
+      internalID: 662572799764640800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      by-photon_short_c_0: 140724796704608448
+      by-photon_short_c_1: -2489626299856917781
+      by-photon_short_c_10: 2215731868980036504
+      by-photon_short_c_11: -527424179370053040
+      by-photon_short_c_12: -8951409162072379756
+      by-photon_short_c_13: 91847819683915492
+      by-photon_short_c_14: -6320800667546716627
+      by-photon_short_c_15: -4482945041893006153
+      by-photon_short_c_16: 2573400366921632210
+      by-photon_short_c_17: 6022563787603909427
+      by-photon_short_c_18: -5172266777407695397
+      by-photon_short_c_19: 7753595194369469226
+      by-photon_short_c_2: 1370997438931499902
+      by-photon_short_c_20: 2546989272041141432
+      by-photon_short_c_21: 8206060235639826220
+      by-photon_short_c_22: -7865199059641887040
+      by-photon_short_c_23: -6238749277446734398
+      by-photon_short_c_24: 8742757317604724452
+      by-photon_short_c_25: 4585541560209928753
+      by-photon_short_c_26: 1977620130569386539
+      by-photon_short_c_27: -2352941700586008155
+      by-photon_short_c_28: -816217389423571414
+      by-photon_short_c_29: 3866992177171680945
+      by-photon_short_c_3: -7076882249406779186
+      by-photon_short_c_30: 9100682577977349685
+      by-photon_short_c_31: 3161641578342480610
+      by-photon_short_c_32: -1732337654115807503
+      by-photon_short_c_33: 4249620279910543253
+      by-photon_short_c_34: -7642760309872558519
+      by-photon_short_c_35: 7078301231845101109
+      by-photon_short_c_36: -6036088346418148675
+      by-photon_short_c_37: -946376653733610316
+      by-photon_short_c_38: 2563210623601587567
+      by-photon_short_c_39: 4345877188706665974
+      by-photon_short_c_4: 3140634543316015025
+      by-photon_short_c_40: 2791113083268249627
+      by-photon_short_c_41: 5639921578185165844
+      by-photon_short_c_42: -6372807195555625709
+      by-photon_short_c_43: 2785889172959187783
+      by-photon_short_c_44: 8315581778169771121
+      by-photon_short_c_45: 5264277000363271378
+      by-photon_short_c_46: 662572799764640800
+      by-photon_short_c_5: -4067614748995971884
+      by-photon_short_c_6: 5057285818767538625
+      by-photon_short_c_7: -8292426951919837683
+      by-photon_short_c_8: -8033824215469185698
+      by-photon_short_c_9: 9070439873305624709
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

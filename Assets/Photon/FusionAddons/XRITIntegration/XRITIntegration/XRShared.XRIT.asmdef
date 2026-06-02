@@ -1,0 +1,32 @@
+{
+    "name": "XRShared.XRIT",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b7d4ae07a8ade8f448d49c1320944362",
+        "GUID:fe685ec1767f73d42b749ea8045bfe43",
+        "GUID:ce522b6ed64c8be4c989a1d26d0e3275",
+        "GUID:b6e047d3c6aa4ec4792b00936ee28799",
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:0fcb95827765196489d66b076928288d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.hands",
+            "expression": "[1,10000]",
+            "define": "XRHANDS_ENABLED"
+        },
+        {
+            "name": "com.unity.xr.interaction.toolkit",
+            "expression": "[3,10000]",
+            "define": "XRIT_ENABLED"
+        }
+    ],
+    "noEngineReferences": false
+}

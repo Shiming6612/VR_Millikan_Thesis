@@ -1,0 +1,16 @@
+{
+    "name": "XRShared.Core.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5c8d44f06e6b8d449b33072069500441"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

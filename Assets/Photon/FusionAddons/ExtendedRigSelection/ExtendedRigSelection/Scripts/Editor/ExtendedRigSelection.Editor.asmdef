@@ -1,0 +1,18 @@
+{
+    "name": "ExtendedRigSelection.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d2a2a77b2e9c25b459c8a73513174c8c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

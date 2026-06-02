@@ -1,0 +1,17 @@
+{
+    "name": "SocialDistancing",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:d8ad1aaf422161b4f96d9d7f0da8d62c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

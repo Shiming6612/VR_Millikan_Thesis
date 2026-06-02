@@ -1,0 +1,18 @@
+{
+    "name": "VoiceHelpers.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:415d649162855d948bfd44d8c5f1e7a2",
+        "GUID:b59fae9c7ebc1574e8690f2570b29d6f",
+        "GUID:710b25b0aae49f443a7ff8056d94102b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

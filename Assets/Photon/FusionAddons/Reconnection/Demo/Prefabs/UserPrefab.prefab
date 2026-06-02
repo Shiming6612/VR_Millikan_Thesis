@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &671779811216512543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3510300269659247962}
+  - component: {fileID: 3391470849442099479}
+  - component: {fileID: 5121238623681676120}
+  - component: {fileID: 2796797496845970245}
+  - component: {fileID: -6688401919445984389}
+  m_Layer: 0
+  m_Name: UserPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3510300269659247962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671779811216512543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15904838, y: 0.61217594, z: -0.51777697}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3391470849442099479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671779811216512543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1583530278
+  ObjectInterest: 1
+  Flags: 262401
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5121238623681676120}
+  - {fileID: 2796797496845970245}
+  - {fileID: -6688401919445984389}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &5121238623681676120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671779811216512543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0.15
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &2796797496845970245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671779811216512543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87852cff55cd57b4bb1e1ee47d25d697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registeredOnRegistries: []
+  registriesToSubscribeToWhenAvailable: []
+  unavailableRegistriesToSubscribeTo: []
+  cachedUserId: 
+  cachedId:
+    Object:
+      Raw: 0
+    Behaviour: 0
+  _UserId:
+    _length: 0
+    _data:
+      Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  onRecovery:
+    m_PersistentCalls:
+      m_Calls: []
+  willReconnectWithPreviousHandlerStillInPlace:
+    m_PersistentCalls:
+      m_Calls: []
+  userIdCollisionHandling: 0
+  collisionCheckLastReceivedTickEvolutionWindow: 2
+  _Status: 0
+--- !u!114 &-6688401919445984389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671779811216512543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fa1a1508f230f4c83b475e45e67778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoverablePrefab: {fileID: 8710677835059936694, guid: 9525ac482616b4e4582bd55576c34cb2, type: 3}
+  automaticallySpawnOnUserIdSetForNewUser: 1
+  respawnOnReregister: 0

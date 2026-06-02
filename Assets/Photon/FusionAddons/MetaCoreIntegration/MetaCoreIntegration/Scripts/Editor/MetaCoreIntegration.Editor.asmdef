@@ -1,0 +1,25 @@
+{
+    "name": "MetaCoreIntegration.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2affaa6684b07a442bdf25aff7330c1c",
+        "GUID:5c8d44f06e6b8d449b33072069500441",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30",
+        "GUID:93bda9a2bc9dddc43930634fa65d6e42",
+        "GUID:e67422dde67a6324a8ced7e5fa3542de",
+        "GUID:d0574574baafe9d4aa78d8df4a5e3e5e",
+        "GUID:4d449a4732e064d26a3069f2cfd88917",
+        "GUID:d2761a0af0f567748a72629d4bb18a26"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7608f7adbf37db748b1d4e7b24063673, type: 3}
+  m_Name: PackageDependenciesToInteractions
+  m_EditorClassIdentifier: 
+  basePath: <Application.dataPath>/Photon/FusionAddons
+  isRequestingAnalysis: 0
+  usePackage: 1
+  detectSubPackage: 1
+  basePackageFolder: <Application.dataPath>/Photon/FusionAddons
+  packagePrefix: 
+  usePackageLinks: 1
+  onlyDisplayPackages: 1
+  displayPackagesAsClasses: 1
+  filterTermsInAnalysis:
+  - Legacy
+  - Automation
+  - Editor
+  - Desktop
+  - PositionDebugging
+  - Physics
+  - Tools
+  requiredTermInDependentAssemblies: []
+  requiredTermInDependenciesAssemblies:
+  - Interaction
+  requiredTermInPackages: []
+  replacementInNames:
+  - from: XRShared\Interactions
+    to: XRShared\Interactions
+    padSpaces: 250
+    exactMatch: 1
+  onlyDisplayAssemblyWithLinks: 0
+  header: '@startuml
+
+    hide circle
+
+    hide empty methods
+
+    hide empty members
+
+    skinparam
+    linetype ortho
+
+'
+  footer: '@enduml
+
+'
+  analysisResult: '@startuml
+
+    hide circle
+
+    hide empty methods
+
+    hide empty
+    members
+
+    skinparam linetype ortho
+
+    class "AudioRoom" as _AudioRoom
+
+    class
+    "                                                                                                       
+    XRShared\Interactions                                                                                                                            
+    " as _XRShared\Interactions
+
+    class "ChatBubble" as _ChatBubble
+
+    class
+    "Drawing" as _Drawing
+
+    class "LocomotionValidation" as _LocomotionValidation
+
+    class
+    "SocialDistancing" as _SocialDistancing
+
+    class "Spaces" as _Spaces
+
+    class
+    "StructureCohesion" as _StructureCohesion
+
+    class "VirtualKeyboard" as _VirtualKeyboard
+
+    class
+    "VisionOsHelpers" as _VisionOsHelpers
+
+    _AudioRoom --> _XRShared\Interactions
+
+    _ChatBubble
+    --> _AudioRoom
+
+    _ChatBubble --> _XRShared\Interactions
+
+    _Drawing -->
+    _XRShared\Interactions
+
+    _LocomotionValidation --> _XRShared\Interactions
+
+    _SocialDistancing
+    --> _XRShared\Interactions
+
+    _Spaces --> _XRShared\Interactions
+
+    _StructureCohesion
+    --> _XRShared\Interactions
+
+    _VirtualKeyboard --> _XRShared\Interactions
+
+    _VisionOsHelpers
+    --> _XRShared\Interactions
+
+    @enduml
+
+'

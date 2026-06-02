@@ -1,0 +1,28 @@
+{
+    "name": "MXInkIntegration",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:283159cf4bf6409449f580ae3adde3b5",
+        "GUID:01d56ee3e9f08b9408627e095ce33138",
+        "GUID:b7d4ae07a8ade8f448d49c1320944362",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "OPENXR_AVAILABLE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.openxr",
+            "expression": "[1,10000]",
+            "define": "OPENXR_AVAILABLE"
+        }
+    ],
+    "noEngineReferences": false
+}

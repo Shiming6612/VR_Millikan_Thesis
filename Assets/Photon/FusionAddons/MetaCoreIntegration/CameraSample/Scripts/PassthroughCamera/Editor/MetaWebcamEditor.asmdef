@@ -1,0 +1,20 @@
+{
+    "name": "MetaWebcamEditor",
+    "rootNamespace": "",
+    "references": [
+        "Oculus.VR"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "OCULUS_SDK_AVAILABLE"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

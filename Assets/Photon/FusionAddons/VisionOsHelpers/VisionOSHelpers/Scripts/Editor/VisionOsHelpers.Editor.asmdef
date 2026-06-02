@@ -1,0 +1,20 @@
+{
+    "name": "VisionOsHelpers.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a7688288d5f78fa4b8db6fd01c2a22ed",
+        "GUID:5c8d44f06e6b8d449b33072069500441",
+        "GUID:2dae41157c3cdd84ba640614190f09f6"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

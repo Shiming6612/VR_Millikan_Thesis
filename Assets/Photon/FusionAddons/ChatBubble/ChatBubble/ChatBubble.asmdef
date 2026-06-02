@@ -1,0 +1,19 @@
+{
+    "name": "ChatBubble",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5ad671ffeabcd2a478f287ee38434e8d",
+        "GUID:d8ad1aaf422161b4f96d9d7f0da8d62c",
+        "GUID:1d7fefa29e3076d4babd9dd8f8bb5457",
+        "GUID:84969bac824196a428b7fdde6b4bb710"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,18 @@
+{
+    "name": "ExtendedRigSelection",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:5127c72e9a58f92448e60305c04d5c1c",
+        "GUID:dd27059c5d9ba004c8f167208b122f60"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

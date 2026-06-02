@@ -1,0 +1,1 @@
+This demo scene is a ready-to-use modified version of the Unity XRIT Starter demo scene : https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/samples-starter-assets.html

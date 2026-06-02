@@ -1,0 +1,32 @@
+{
+    "name": "SubsamplingDesactivation.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:96aa6ba065960476598f8f643e7252b6",
+        "GUID:d2761a0af0f567748a72629d4bb18a26",
+        "GUID:4847341ff46394e83bb78fbd0652937e",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.meta.xr.sdk.core",
+            "expression": "[0.,10000]",
+            "define": "META_XR_SDK_CORE_AVAILABLE"
+        },
+        {
+            "name": "com.unity.xr.openxr",
+            "expression": "[0.,10000]",
+            "define": "OPENXR_AVAILABLE"
+        }
+    ],
+    "noEngineReferences": false
+}

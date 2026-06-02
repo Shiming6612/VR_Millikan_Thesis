@@ -1,0 +1,31 @@
+{
+    "name": "XRShared.AutomaticSetup",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b7d4ae07a8ade8f448d49c1320944362",
+        "GUID:dc960734dc080426fa6612f1c5fe95f3",
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:b6e047d3c6aa4ec4792b00936ee28799",
+        "GUID:b08c2b33b71cf48448b8fa9a2c8cc959",
+        "GUID:ce522b6ed64c8be4c989a1d26d0e3275",
+        "GUID:d8ad1aaf422161b4f96d9d7f0da8d62c",
+        "GUID:f597b6dfa692c0e48a7f878957c693f8",
+        "GUID:de998f40792851644a97cfa9c3786180"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.hands",
+            "expression": "[1,10000]",
+            "define": "XRHANDS_AVAILABLE"
+        }
+    ],
+    "noEngineReferences": false
+}

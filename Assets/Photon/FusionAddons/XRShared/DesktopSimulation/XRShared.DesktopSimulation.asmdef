@@ -1,0 +1,20 @@
+{
+    "name": "XRShared.DesktopSimulation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:0fcb95827765196489d66b076928288d",
+        "GUID:de998f40792851644a97cfa9c3786180",
+        "GUID:d8ad1aaf422161b4f96d9d7f0da8d62c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

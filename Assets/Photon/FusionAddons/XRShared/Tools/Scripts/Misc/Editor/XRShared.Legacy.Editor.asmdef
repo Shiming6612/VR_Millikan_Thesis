@@ -1,0 +1,21 @@
+{
+    "name": "XRShared.Legacy.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:9bbeeee35f19b7e45a50e737b9ef15c0",
+        "GUID:2eb459df681ac0d428e29a33b838f9a6",
+        "GUID:141925d025e193c40b419000dd6ce6e1"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

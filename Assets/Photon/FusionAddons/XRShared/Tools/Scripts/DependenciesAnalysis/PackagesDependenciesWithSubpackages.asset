@@ -1,0 +1,268 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7608f7adbf37db748b1d4e7b24063673, type: 3}
+  m_Name: PackagesDependenciesWithSubpackages
+  m_EditorClassIdentifier: 
+  basePath: <Application.dataPath>/Photon/FusionAddons
+  isRequestingAnalysis: 0
+  usePackage: 1
+  detectSubPackage: 1
+  basePackageFolder: <Application.dataPath>/Photon/FusionAddons
+  packagePrefix: 
+  usePackageLinks: 1
+  onlyDisplayPackages: 1
+  displayPackagesAsClasses: 1
+  filterTermsInAnalysis:
+  - Legacy
+  - Automation
+  - Editor
+  - Desktop
+  - PositionDebugging
+  - Physics
+  requiredTermInDependentAssemblies: []
+  requiredTermInDependenciesAssemblies: []
+  requiredTermInPackages: []
+  replacementInNames:
+  - from: XRShared
+    to: XRShared
+    padSpaces: 650
+    exactMatch: 1
+  onlyDisplayAssemblyWithLinks: 0
+  header: '@startuml
+
+    hide circle
+
+    hide empty methods
+
+    hide empty members
+
+    skinparam
+    linetype ortho
+
+'
+  footer: '@enduml
+
+'
+  analysisResult: '@startuml
+
+    hide circle
+
+    hide empty methods
+
+    hide empty
+    members
+
+    skinparam linetype ortho
+
+    class "AudioRoom" as _AudioRoom
+
+    class
+    "                                                                                                                                                                                                                                                                                                                            
+    XRShared                                                                                                                                                                                                                                                                                                                                    
+    " as _XRShared
+
+    class "XRShared\Interactions" as _XRShared\Interactions
+
+    class
+    "DynamicAudioGroup" as _DynamicAudioGroup
+
+    class "BlockingContact" as _BlockingContact
+
+    class
+    "VisionOsHelpers" as _VisionOsHelpers
+
+    class "ChatBubble" as _ChatBubble
+
+    class
+    "ConnectionManager" as _ConnectionManager
+
+    class "DataSyncHelpers" as _DataSyncHelpers
+
+    class
+    "Drawing" as _Drawing
+
+    class "InteractiveMenu" as _InteractiveMenu
+
+    class
+    "ExtendedRigSelection" as _ExtendedRigSelection
+
+    class "Feedback" as _Feedback
+
+    class
+    "LineDrawing" as _LineDrawing
+
+    class "LocomotionValidation" as _LocomotionValidation
+
+    class
+    "Magnets" as _Magnets
+
+    class "MetaCoreIntegration" as _MetaCoreIntegration
+
+    class
+    "MXInkIntegration" as _MXInkIntegration
+
+    class "Screensharing" as _Screensharing
+
+    class
+    "SocialDistancing" as _SocialDistancing
+
+    class "Spaces" as _Spaces
+
+    class
+    "StickyNotes" as _StickyNotes
+
+    class "TextureDrawing" as _TextureDrawing
+
+    class
+    "StructureCohesion" as _StructureCohesion
+
+    class "UISynchronization" as _UISynchronization
+
+    class
+    "VirtualKeyboard" as _VirtualKeyboard
+
+    class "VoiceHelpers" as _VoiceHelpers
+
+    class
+    "XRITIntegration" as _XRITIntegration
+
+    _AudioRoom --> _XRShared
+
+    _AudioRoom
+    --> _XRShared\Interactions
+
+    _AudioRoom --> _DynamicAudioGroup
+
+    _XRShared\Interactions
+    --> _XRShared
+
+    _DynamicAudioGroup --> _XRShared
+
+    _BlockingContact -->
+    _XRShared
+
+    _BlockingContact --> _VisionOsHelpers
+
+    _VisionOsHelpers -->
+    _XRShared\Interactions
+
+    _VisionOsHelpers --> _XRShared
+
+    _ChatBubble -->
+    _AudioRoom
+
+    _ChatBubble --> _XRShared\Interactions
+
+    _ChatBubble --> _DynamicAudioGroup
+
+    _ChatBubble
+    --> _XRShared
+
+    _ConnectionManager --> _XRShared
+
+    _DataSyncHelpers -->
+    _XRShared
+
+    _Drawing --> _XRShared\Interactions
+
+    _Drawing --> _XRShared
+
+    _Drawing
+    --> _DataSyncHelpers
+
+    _Drawing --> _BlockingContact
+
+    _Drawing --> _InteractiveMenu
+
+    _XRShared
+    --> _XRShared\Interactions
+
+    _InteractiveMenu --> _XRShared
+
+    _ExtendedRigSelection
+    --> _XRShared
+
+    _ExtendedRigSelection --> _ConnectionManager
+
+    _Feedback
+    --> _XRShared
+
+    _LineDrawing --> _DataSyncHelpers
+
+    _LineDrawing --> _XRShared
+
+    _LocomotionValidation
+    --> _XRShared
+
+    _LocomotionValidation --> _XRShared\Interactions
+
+    _Magnets
+    --> _XRShared
+
+    _MetaCoreIntegration --> _XRShared
+
+    _MXInkIntegration
+    --> _XRShared
+
+    _MXInkIntegration --> _LineDrawing
+
+    _Screensharing -->
+    _XRShared
+
+    _SocialDistancing --> _XRShared
+
+    _SocialDistancing --> _XRShared\Interactions
+
+    _Spaces
+    --> _XRShared
+
+    _Spaces --> _ConnectionManager
+
+    _Spaces --> _XRShared\Interactions
+
+    _StickyNotes
+    --> _XRShared
+
+    _StickyNotes --> _TextureDrawing
+
+    _StickyNotes --> _DataSyncHelpers
+
+    _TextureDrawing
+    --> _DataSyncHelpers
+
+    _TextureDrawing --> _XRShared
+
+    _StructureCohesion
+    --> _XRShared
+
+    _StructureCohesion --> _Magnets
+
+    _StructureCohesion -->
+    _XRShared\Interactions
+
+    _TextureDrawing --> _BlockingContact
+
+    _UISynchronization
+    --> _XRShared
+
+    _VirtualKeyboard --> _XRShared
+
+    _VirtualKeyboard --> _XRShared\Interactions
+
+    _VoiceHelpers
+    --> _XRShared
+
+    _XRITIntegration --> _XRShared
+
+    @enduml
+
+'

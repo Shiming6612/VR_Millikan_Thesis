@@ -1,0 +1,27 @@
+{
+    "name": "XRHandsSynchronization.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5c8d44f06e6b8d449b33072069500441",
+        "GUID:b08c2b33b71cf48448b8fa9a2c8cc959"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "XRHANDS_AVAILABLE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.hands",
+            "expression": "[1,10000]",
+            "define": "XRHANDS_AVAILABLE"
+        }
+    ],
+    "noEngineReferences": false
+}

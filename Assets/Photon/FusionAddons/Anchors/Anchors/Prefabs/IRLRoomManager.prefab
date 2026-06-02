@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &530621791689488305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4137577241926583943}
+  - component: {fileID: 673489660395692002}
+  m_Layer: 0
+  m_Name: IRLRoomManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4137577241926583943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530621791689488305}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.094571985, y: 0.63114655, z: 0.0733598}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &673489660395692002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530621791689488305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdba8067a99fd04389bedfe2d1543c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knowRooms: []
+  knowTagIds: []
+  knowMembers: []
+  predefinedRoomSuffixSeparator: -Room-
+  predefinedTagRoomMappings: []
+  requiredAnchorContentToUseForColocalization: 
+  networkIRLRoomTagPrefab: {fileID: 7632969213874391644, guid: 0cb83e0523883e245a39d4d83175ab2e, type: 3}
+  worldAnchorTracking: {fileID: 0}
+  localNetworkIRLRoomMember: {fileID: 0}
+  autofixGroundPosition: 1
+  keepUpDirection: 1
+  fixPositionError: 0
+  minimumPositionErrorToRestartColocalization: 1
+  minimumAngleErrorToRestartColocalization: 30
+  anchorFollowLogic: 0
+  debugLog: 0
+  visibleLongStableAnchorsInfo: []
+  detectedAnchors: 0

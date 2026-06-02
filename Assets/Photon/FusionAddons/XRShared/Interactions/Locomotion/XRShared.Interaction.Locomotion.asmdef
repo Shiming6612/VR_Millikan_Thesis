@@ -1,0 +1,19 @@
+{
+    "name": "XRShared.Interaction.Locomotion",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:508d1ac8223b0824ab4ee96efd709340",
+        "GUID:de998f40792851644a97cfa9c3786180"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

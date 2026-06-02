@@ -1,0 +1,20 @@
+{
+    "name": "XRShared.AutomaticSetup.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f21da89f71a145a45a17157a6499e6cf",
+        "GUID:b7d4ae07a8ade8f448d49c1320944362",
+        "GUID:dc960734dc080426fa6612f1c5fe95f3"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

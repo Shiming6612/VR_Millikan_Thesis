@@ -1,0 +1,18 @@
+{
+    "name": "DataSyncHelpers.DataTools",
+    "rootNamespace": "",
+    "references": [
+        "GUID:531f823fba6ae7d429272e1c50172ee0",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:84969bac824196a428b7fdde6b4bb710"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

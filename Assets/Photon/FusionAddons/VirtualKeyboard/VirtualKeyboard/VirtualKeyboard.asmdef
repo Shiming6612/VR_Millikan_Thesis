@@ -1,0 +1,20 @@
+{
+    "name": "VirtualKeyboard",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0fcb95827765196489d66b076928288d",
+        "GUID:532977285a33fe849856e0a815c9055d",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:84969bac824196a428b7fdde6b4bb710",
+        "GUID:5127c72e9a58f92448e60305c04d5c1c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
