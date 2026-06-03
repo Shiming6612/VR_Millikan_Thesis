@@ -15041,11 +15041,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b47034cc39655345b061793b9762bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMode: 1
   forceArrowObjects:
   - {fileID: 176610954}
   - {fileID: 1984425544}
   - {fileID: 1571708878}
-  trailObjects: []
 --- !u!4 &1493159053
 Transform:
   m_ObjectHideFlags: 0
