@@ -20,7 +20,16 @@ public class VisualizationModeController : MonoBehaviour
         currentMode == VisualizationMode.TrailPathOnly ||
         currentMode == VisualizationMode.Both;
 
+    public bool ForceArrowsEnabled =>
+        currentMode == VisualizationMode.ForceArrowsOnly ||
+        currentMode == VisualizationMode.Both;
+
     private void Start()
+    {
+        ApplyMode();
+    }
+
+    private void LateUpdate()
     {
         ApplyMode();
     }
@@ -57,25 +66,31 @@ public class VisualizationModeController : MonoBehaviour
 
     public void ApplyMode()
     {
-        bool showArrows =
-            currentMode == VisualizationMode.ForceArrowsOnly ||
-            currentMode == VisualizationMode.Both;
-
-        SetActive(forceArrowObjects, showArrows);
+        SetArrowVisibility(ForceArrowsEnabled);
 
         if (!TrailEnabled)
             HideAllTrails();
     }
 
-    private void SetActive(GameObject[] objects, bool active)
+    private void SetArrowVisibility(bool visible)
     {
-        if (objects == null)
+        if (forceArrowObjects == null)
             return;
 
-        foreach (GameObject obj in objects)
+        foreach (GameObject obj in forceArrowObjects)
         {
-            if (obj != null)
-                obj.SetActive(active);
+            if (obj == null)
+                continue;
+
+            obj.SetActive(visible);
+
+            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer r in renderers)
+                r.enabled = visible;
+
+            LineRenderer[] lines = obj.GetComponentsInChildren<LineRenderer>(true);
+            foreach (LineRenderer line in lines)
+                line.enabled = visible;
         }
     }
 
