@@ -396,7 +396,7 @@ public class VoltageKnobInput : MonoBehaviour
         }
 
         if (voltageText != null)
-            voltageText.text = CurrentVoltage.ToString("0.0") + " V";
+            voltageText.text = "Voltage: " + CurrentVoltage.ToString("0.0") + " V";
 
         ApplyVisualRotationFromVoltage();
     }

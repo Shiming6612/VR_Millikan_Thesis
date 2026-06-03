@@ -39,6 +39,7 @@ public class DropSelectionManager : MonoBehaviour
 
     private SelectableDrop selected;
     private SelectableDrop hovered;
+    private SelectedDropletTrail currentTrail;
 
     private bool prevTriggerPressed;
     private bool prevPrimaryPressed;
@@ -107,6 +108,7 @@ public class DropSelectionManager : MonoBehaviour
         if (!selectionEnabled)
         {
             ClearHover();
+            ClearSelection();
             RefreshLineVisibility(false);
         }
         else
@@ -166,12 +168,18 @@ public class DropSelectionManager : MonoBehaviour
             return;
 
         if (selected != null)
+        {
             selected.SetSelected(false);
+            HideCurrentTrail();
+        }
 
         selected = newSelected;
 
         if (selected != null)
+        {
             selected.SetSelected(true);
+            ShowTrailForSelectedDrop(selected);
+        }
 
         if (logSelection)
             Debug.Log(selected != null ? "[DropSelection] Selected: " + selected.name : "[DropSelection] Selected: None");
@@ -184,6 +192,32 @@ public class DropSelectionManager : MonoBehaviour
 
             if (tutorial != null)
                 tutorial.NotifyDropSelected();
+        }
+    }
+
+    private void ShowTrailForSelectedDrop(SelectableDrop drop)
+    {
+        if (drop == null)
+            return;
+
+        currentTrail = drop.GetComponentInParent<SelectedDropletTrail>();
+
+        if (currentTrail != null)
+        {
+            currentTrail.ShowTrail();
+        }
+        else if (logSelection)
+        {
+            Debug.LogWarning("[DropSelection] Selected drop has no SelectedDropletTrail component: " + drop.name);
+        }
+    }
+
+    private void HideCurrentTrail()
+    {
+        if (currentTrail != null)
+        {
+            currentTrail.HideTrail();
+            currentTrail = null;
         }
     }
 
