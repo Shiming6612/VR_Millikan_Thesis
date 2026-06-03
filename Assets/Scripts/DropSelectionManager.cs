@@ -40,12 +40,14 @@ public class DropSelectionManager : MonoBehaviour
     private SelectableDrop selected;
     private SelectableDrop hovered;
     private SelectedDropletTrail currentTrail;
+    private VisualizationModeController visualizationModeController;
 
     private bool prevTriggerPressed;
     private bool prevPrimaryPressed;
 
     private void Start()
     {
+        visualizationModeController = FindFirstObjectByType<VisualizationModeController>();
         SetSelectionEnabled(selectionEnabled);
     }
 
@@ -200,7 +202,16 @@ public class DropSelectionManager : MonoBehaviour
         if (drop == null)
             return;
 
-        currentTrail = drop.GetComponentInParent<SelectedDropletTrail>();
+        if (visualizationModeController != null && !visualizationModeController.TrailEnabled)
+            return;
+
+        currentTrail = drop.GetComponent<SelectedDropletTrail>();
+
+        if (currentTrail == null)
+            currentTrail = drop.GetComponentInChildren<SelectedDropletTrail>();
+
+        if (currentTrail == null)
+            currentTrail = drop.GetComponentInParent<SelectedDropletTrail>();
 
         if (currentTrail != null)
         {

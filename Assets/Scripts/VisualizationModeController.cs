@@ -2,37 +2,72 @@ using UnityEngine;
 
 public class VisualizationModeController : MonoBehaviour
 {
-    [Header("Variant 1: Force arrows")]
+    public enum VisualizationMode
+    {
+        ForceArrowsOnly,
+        TrailPathOnly,
+        Both,
+        HideAll
+    }
+
+    [Header("Mode")]
+    public VisualizationMode currentMode = VisualizationMode.ForceArrowsOnly;
+
+    [Header("Force Arrows")]
     public GameObject[] forceArrowObjects;
 
-    [Header("Variant 2: Trail path")]
-    public GameObject[] trailObjects;
+    public bool TrailEnabled =>
+        currentMode == VisualizationMode.TrailPathOnly ||
+        currentMode == VisualizationMode.Both;
 
-    public void ShowForceArrowsOnly()
+    private void Start()
     {
-        SetObjectsActive(forceArrowObjects, true);
-        SetObjectsActive(trailObjects, false);
+        ApplyMode();
     }
 
-    public void ShowTrailOnly()
+    private void OnValidate()
     {
-        SetObjectsActive(forceArrowObjects, false);
-        SetObjectsActive(trailObjects, true);
+        if (Application.isPlaying)
+            ApplyMode();
     }
 
-    public void ShowBoth()
+    public void SetForceArrowsOnly()
     {
-        SetObjectsActive(forceArrowObjects, true);
-        SetObjectsActive(trailObjects, true);
+        currentMode = VisualizationMode.ForceArrowsOnly;
+        ApplyMode();
     }
 
-    public void HideAll()
+    public void SetTrailPathOnly()
     {
-        SetObjectsActive(forceArrowObjects, false);
-        SetObjectsActive(trailObjects, false);
+        currentMode = VisualizationMode.TrailPathOnly;
+        ApplyMode();
     }
 
-    private void SetObjectsActive(GameObject[] objects, bool active)
+    public void SetBoth()
+    {
+        currentMode = VisualizationMode.Both;
+        ApplyMode();
+    }
+
+    public void SetHideAll()
+    {
+        currentMode = VisualizationMode.HideAll;
+        ApplyMode();
+    }
+
+    public void ApplyMode()
+    {
+        bool showArrows =
+            currentMode == VisualizationMode.ForceArrowsOnly ||
+            currentMode == VisualizationMode.Both;
+
+        SetActive(forceArrowObjects, showArrows);
+
+        if (!TrailEnabled)
+            HideAllTrails();
+    }
+
+    private void SetActive(GameObject[] objects, bool active)
     {
         if (objects == null)
             return;
@@ -41,6 +76,18 @@ public class VisualizationModeController : MonoBehaviour
         {
             if (obj != null)
                 obj.SetActive(active);
+        }
+    }
+
+    private void HideAllTrails()
+    {
+        SelectedDropletTrail[] trails =
+            FindObjectsByType<SelectedDropletTrail>(FindObjectsSortMode.None);
+
+        foreach (SelectedDropletTrail trail in trails)
+        {
+            if (trail != null)
+                trail.HideTrail();
         }
     }
 }
