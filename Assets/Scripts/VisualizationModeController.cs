@@ -2,74 +2,68 @@ using UnityEngine;
 
 public class VisualizationModeController : MonoBehaviour
 {
-    public enum VisualizationMode
-    {
-        ForceArrowsOnly,
-        TrailPathOnly,
-        Both,
-        HideAll
-    }
-
-    [Header("Mode")]
-    public VisualizationMode currentMode = VisualizationMode.ForceArrowsOnly;
+    [Header("Visualization Switches")]
+    public bool showForceArrows = true;
+    public bool showTrailPath = false;
+    public bool showFieldCloud = false;
 
     [Header("Force Arrows")]
     public GameObject[] forceArrowObjects;
 
-    public bool TrailEnabled =>
-        currentMode == VisualizationMode.TrailPathOnly ||
-        currentMode == VisualizationMode.Both;
+    [Header("Field Cloud")]
+    public FieldParticleCloudVisualizer fieldCloud;
 
-    public bool ForceArrowsEnabled =>
-        currentMode == VisualizationMode.ForceArrowsOnly ||
-        currentMode == VisualizationMode.Both;
+    public bool TrailEnabled => showTrailPath;
+    public bool ForceArrowsEnabled => showForceArrows;
+    public bool FieldCloudEnabled => showFieldCloud;
 
     private void Start()
     {
-        ApplyMode();
+        ApplyVisualizationSwitches();
     }
 
     private void LateUpdate()
     {
-        ApplyMode();
+        ApplyVisualizationSwitches();
     }
 
     private void OnValidate()
     {
         if (Application.isPlaying)
-            ApplyMode();
+            ApplyVisualizationSwitches();
     }
 
-    public void SetForceArrowsOnly()
+    public void SetForceArrowsVisible(bool visible)
     {
-        currentMode = VisualizationMode.ForceArrowsOnly;
-        ApplyMode();
+        showForceArrows = visible;
+        ApplyVisualizationSwitches();
     }
 
-    public void SetTrailPathOnly()
+    public void SetTrailPathVisible(bool visible)
     {
-        currentMode = VisualizationMode.TrailPathOnly;
-        ApplyMode();
-    }
+        showTrailPath = visible;
 
-    public void SetBoth()
-    {
-        currentMode = VisualizationMode.Both;
-        ApplyMode();
-    }
-
-    public void SetHideAll()
-    {
-        currentMode = VisualizationMode.HideAll;
-        ApplyMode();
-    }
-
-    public void ApplyMode()
-    {
-        SetArrowVisibility(ForceArrowsEnabled);
-
-        if (!TrailEnabled)
+        if (!showTrailPath)
             HideAllTrails();
+
+        ApplyVisualizationSwitches();
+    }
+
+    public void SetFieldCloudVisible(bool visible)
+    {
+        showFieldCloud = visible;
+        ApplyVisualizationSwitches();
+    }
+
+    public void ApplyVisualizationSwitches()
+    {
+        SetArrowVisibility(showForceArrows);
+
+        if (!showTrailPath)
+            HideAllTrails();
+
+        if (fieldCloud != null)
+            fieldCloud.SetVisualizationEnabled(showFieldCloud);
     }
 
     private void SetArrowVisibility(bool visible)
@@ -85,12 +79,12 @@ public class VisualizationModeController : MonoBehaviour
             obj.SetActive(visible);
 
             Renderer[] renderers = obj.GetComponentsInChildren<Renderer>(true);
-            foreach (Renderer r in renderers)
-                r.enabled = visible;
+            foreach (Renderer renderer in renderers)
+                renderer.enabled = visible;
 
-            LineRenderer[] lines = obj.GetComponentsInChildren<LineRenderer>(true);
-            foreach (LineRenderer line in lines)
-                line.enabled = visible;
+            LineRenderer[] lineRenderers = obj.GetComponentsInChildren<LineRenderer>(true);
+            foreach (LineRenderer lineRenderer in lineRenderers)
+                lineRenderer.enabled = visible;
         }
     }
 
