@@ -303,8 +303,8 @@ TrailRenderer:
       m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
+    numCornerVertices: 6
+    numCapVertices: 4
     alignment: 0
     textureMode: 0
     textureScale: {x: 1, y: 1}
@@ -327,3 +327,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4360511c4ff3e1549bb4caaf6ee24480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualizationModeController: {fileID: 0}
+  minSpeedToShow: 0.002
+  maxSpeedForFullTrail: 0.05
+  minWidth: 0.002
+  maxWidth: 0.035
+  minTime: 0.2
+  maxTime: 4
+  lowSpeedColor: {r: 0.9137466, g: 0.66749656, b: 0.05295294, a: 0.7137255}
+  highSpeedColor: {r: 0.78436655, g: 0.10465266, b: 0.4931421, a: 0.7607843}
+  isSelected: 0
