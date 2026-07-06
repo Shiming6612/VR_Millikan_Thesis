@@ -13,23 +13,20 @@ public class SelectableDrop : MonoBehaviour
     [Header("Optional")]
     public int dropId = -1;
 
-    private Material _matInstance;
-    private Color _baseEmission;
-    private bool _baseEmissionKeyword;
-    private bool _isHovered;
-    private bool _isSelected;
+    Material _matInstance;
+    Color _baseEmission;
+    bool _baseEmissionKeyword;
+    bool _isHovered;
+    bool _isSelected;
 
-    private SelectedDropletTrail _trail;
-
-    private void Awake()
+    void Awake()
     {
         if (targetRenderer == null)
             targetRenderer = GetComponentInChildren<Renderer>();
 
-        _trail = GetComponent<SelectedDropletTrail>();
-
         if (targetRenderer != null)
         {
+            // Create per-instance material at runtime
             _matInstance = targetRenderer.material;
 
             _baseEmission = _matInstance.HasProperty("_EmissionColor")
@@ -50,15 +47,11 @@ public class SelectableDrop : MonoBehaviour
     {
         _isSelected = selected;
         ApplyHighlight();
-
-        if (_trail != null)
-            _trail.SetSelected(selected);
     }
 
-    private void ApplyHighlight()
+    void ApplyHighlight()
     {
-        if (_matInstance == null || !useEmissionHighlight)
-            return;
+        if (_matInstance == null || !useEmissionHighlight) return;
 
         bool on = _isSelected || _isHovered;
 
@@ -70,10 +63,8 @@ public class SelectableDrop : MonoBehaviour
         }
         else
         {
-            if (_baseEmissionKeyword)
-                _matInstance.EnableKeyword("_EMISSION");
-            else
-                _matInstance.DisableKeyword("_EMISSION");
+            if (_baseEmissionKeyword) _matInstance.EnableKeyword("_EMISSION");
+            else _matInstance.DisableKeyword("_EMISSION");
 
             if (_matInstance.HasProperty("_EmissionColor"))
                 _matInstance.SetColor("_EmissionColor", _baseEmission);
