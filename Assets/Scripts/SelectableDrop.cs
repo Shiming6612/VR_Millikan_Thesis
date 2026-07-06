@@ -10,10 +10,6 @@ public class SelectableDrop : MonoBehaviour
     public Color highlightEmissionColor = Color.yellow;
     [Range(0f, 10f)] public float emissionIntensity = 2f;
 
-    [Header("Visualization")]
-    public VisualizationModeController visualizationModeController;
-    public bool updateFieldCloudOnSelection = true;
-
     [Header("Optional")]
     public int dropId = -1;
 
@@ -31,9 +27,6 @@ public class SelectableDrop : MonoBehaviour
             targetRenderer = GetComponentInChildren<Renderer>();
 
         _trail = GetComponent<SelectedDropletTrail>();
-
-        if (visualizationModeController == null)
-            visualizationModeController = FindFirstObjectByType<VisualizationModeController>();
 
         if (targetRenderer != null)
         {
@@ -60,30 +53,6 @@ public class SelectableDrop : MonoBehaviour
 
         if (_trail != null)
             _trail.SetSelected(selected);
-
-        UpdateFieldCloudSelection(selected);
-    }
-
-    private void UpdateFieldCloudSelection(bool selected)
-    {
-        if (!updateFieldCloudOnSelection)
-            return;
-
-        if (visualizationModeController == null)
-            return;
-
-        if (visualizationModeController.fieldCloud == null)
-            return;
-
-        if (selected)
-        {
-            visualizationModeController.fieldCloud.SetSelectedDroplet(transform);
-        }
-        else
-        {
-            if (visualizationModeController.fieldCloud.selectedDroplet == transform)
-                visualizationModeController.fieldCloud.ClearSelectedDroplet();
-        }
     }
 
     private void ApplyHighlight()
