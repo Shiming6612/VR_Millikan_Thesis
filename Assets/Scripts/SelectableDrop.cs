@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 
 public class SelectableDrop : MonoBehaviour
@@ -20,6 +21,7 @@ public class SelectableDrop : MonoBehaviour
     private bool _isSelected;
 
     private SelectedDropletTrail _trail;
+    private FieldInfo _trailIsSelectedField;
 
     private void Awake()
     {
@@ -27,6 +29,14 @@ public class SelectableDrop : MonoBehaviour
             targetRenderer = GetComponentInChildren<Renderer>();
 
         _trail = GetComponent<SelectedDropletTrail>();
+
+        if (_trail != null)
+        {
+            _trailIsSelectedField = typeof(SelectedDropletTrail).GetField(
+                "isSelected",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+            );
+        }
 
         if (targetRenderer != null)
         {
@@ -50,9 +60,22 @@ public class SelectableDrop : MonoBehaviour
     {
         _isSelected = selected;
         ApplyHighlight();
+        UpdateTrailSelection(selected);
+    }
 
-        if (_trail != null)
-            _trail.SetSelected(selected);
+    private void UpdateTrailSelection(bool selected)
+    {
+        if (_trail == null)
+            return;
+
+        if (_trailIsSelectedField != null)
+            _trailIsSelectedField.SetValue(_trail, selected);
+
+        _trail.gameObject.SendMessage(
+            "SetSelected",
+            selected,
+            SendMessageOptions.DontRequireReceiver
+        );
     }
 
     private void ApplyHighlight()
