@@ -888,7 +888,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 8
+    type: 0
     angle: 0
     length: 4.5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -975,7 +975,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 3
+      value: 0.6
       mode: 0
       spread: 0
       speed:
@@ -5007,17 +5007,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6ea496d2fe89743ab60b8eb514c02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectionManager: {fileID: 19367244}
+  fieldVolume: {fileID: 1664986258}
   voltageSource: {fileID: 324148793}
-  minVoltageToShow: 1
-  maxVoltageForFullEffect: 800
-  minEmissionRate: 0
+  selectedDroplet: {fileID: 0}
+  followSelectedDroplet: 1
+  positionOffset: {x: 0, y: 0, z: 0}
+  cloudForceMode: 0
+  minNormalizedForceToShow: 0.01
+  densityResponsePower: 1.15
+  hideWhenVoltageZero: 1
+  minVoltageToShowCloud: 0.01
+  cloudRadius: 0.8
+  minEmissionRate: 5
   maxEmissionRate: 150
-  minAlpha: 0
-  maxAlpha: 0.8
-  minParticleSize: 0.012
-  maxParticleSize: 0.025
+  minCloudParticles: 10
+  maxCloudParticles: 200
+  useImmediateBurstFill: 1
+  maxBurstParticlesPerStep: 40
+  burstInterval: 0.08
+  cloudAlpha: 0.45
+  particleSize: 0.018
   fieldColor: {r: 0.176, g: 0.612, b: 0.859, a: 1}
+  fullCloudWhenManuallyAssignedWithoutDropData: 1
   visualizationEnabled: 0
+  currentNormalizedForce: 0
+  targetParticleCount: 0
+  liveParticleCount: 0
 --- !u!1 &43645334
 GameObject:
   m_ObjectHideFlags: 0
@@ -17032,6 +17048,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8065611961336361510, guid: f6babc6a121dfbe4f913bb7758003ce5, type: 3}
     - target: {fileID: 2654860105659830256, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: fieldCloud
+      value: 
+      objectReference: {fileID: 23803585}
+    - target: {fileID: 2654860105659830256, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
       propertyPath: buoyancyArrow
       value: 
       objectReference: {fileID: 1984425545}
@@ -19899,7 +19919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showForceArrows: 0
-  showTrailPath: 1
+  showTrailPath: 0
   showFieldCloud: 1
   forceArrowObjects:
   - {fileID: 176610954}
@@ -20925,6 +20945,17 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.009499997, y: 0.01770607, z: -0.0011095628}
     m_Extent: {x: 0.04527676, y: 0.05372102, z: 0.06648618}
   m_DirtyAABB: 0
+--- !u!114 &1664986258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6561903362973541908, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+  m_PrefabInstance: {fileID: 1135124187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b174295c923ddd64391a18d60f1df728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1667263816
 GameObject:
   m_ObjectHideFlags: 0

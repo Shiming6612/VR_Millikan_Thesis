@@ -55,6 +55,22 @@ public class VisualizationModeController : MonoBehaviour
         ApplyVisualizationSwitches();
     }
 
+    public void ShowAllVisualizations()
+    {
+        showForceArrows = true;
+        showTrailPath = true;
+        showFieldCloud = true;
+        ApplyVisualizationSwitches();
+    }
+
+    public void HideAllVisualizations()
+    {
+        showForceArrows = false;
+        showTrailPath = false;
+        showFieldCloud = false;
+        ApplyVisualizationSwitches();
+    }
+
     public void ApplyVisualizationSwitches()
     {
         SetArrowVisibility(showForceArrows);
@@ -76,7 +92,8 @@ public class VisualizationModeController : MonoBehaviour
             if (obj == null)
                 continue;
 
-            obj.SetActive(visible);
+            if (visible)
+                obj.SetActive(true);
 
             Renderer[] renderers = obj.GetComponentsInChildren<Renderer>(true);
             foreach (Renderer renderer in renderers)
