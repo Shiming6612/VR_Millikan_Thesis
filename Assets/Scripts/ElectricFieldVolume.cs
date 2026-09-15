@@ -149,7 +149,6 @@ public class ElectricFieldVolume : MonoBehaviour
 
     private float CalculateHoverVoltage(Rigidbody rb, DropProperties dropProperties)
     {
-        float mass = Mathf.Max(1e-18f, dropProperties.MassKg);
         float charge = Mathf.Abs(dropProperties.ChargeC);
 
         if (charge < 1e-20f)
@@ -178,11 +177,15 @@ public class ElectricFieldVolume : MonoBehaviour
 
         float scale = Mathf.Max(1e-6f, fieldScale);
 
-        // PDF formula:
-        // F_el = F_G
-        // q * U / d = m * g
-        // U = m * g * d / q
-        return (mass * g * d) / (charge * scale);
+        float effectiveWeight = dropProperties.GetEffectiveWeightNewton(g);
+
+        if (effectiveWeight <= 1e-20f)
+            return 0f;
+
+        // Hover condition including buoyancy:
+        // F_el + F_b = F_G
+        // q * U / d = F_G - F_b
+        return (effectiveWeight * d) / (charge * scale);
     }
 
     private Rigidbody GetValidOilDropBody(Collider other)
