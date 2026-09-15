@@ -125,7 +125,6 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         DropProperties dp = FindDropProperties(selected);
         if (dp == null) return 0f;
 
-        float mass = Mathf.Max(1e-18f, dp.MassKg);
         float charge = Mathf.Abs(dp.ChargeC);
         if (charge < 1e-20f) return 0f;
 
@@ -140,8 +139,9 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         float g = Mathf.Abs(Vector3.Dot(gravity, dir));
 
         float scale = Mathf.Max(1e-6f, fieldVolume.fieldScale);
+        float effectiveWeight = dp.GetEffectiveWeightNewton(g);
 
-        return (mass * g * d) / (charge * scale);
+        return (effectiveWeight * d) / (charge * scale);
     }
 
     private Transform GetSelectedTargetTransform(SelectableDrop selected)
