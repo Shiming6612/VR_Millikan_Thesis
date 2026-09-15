@@ -224,7 +224,6 @@ public class LegendUIController : MonoBehaviour
         if (dp == null)
             return false;
 
-        float mass = Mathf.Max(1e-18f, dp.MassKg);
         float charge = Mathf.Abs(dp.ChargeC);
 
         if (charge < 1e-20f)
@@ -247,11 +246,12 @@ public class LegendUIController : MonoBehaviour
 
         float scale = Mathf.Max(1e-6f, fieldVolume.fieldScale);
 
-        // PDF formula:
-        // F_el = F_G
-        // q * U / d = m * g
-        // U = m * g * d / q
-        hoverVoltage = (mass * g * d) / (charge * scale);
+        float effectiveWeight = dp.GetEffectiveWeightNewton(g);
+
+        // Hover condition including buoyancy:
+        // F_el + F_b = F_G
+        // q * U / d = F_G - F_b
+        hoverVoltage = (effectiveWeight * d) / (charge * scale);
 
         return hoverVoltage > 0f;
     }
