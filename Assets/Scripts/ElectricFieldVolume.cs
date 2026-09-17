@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 [RequireComponent(typeof(BoxCollider))]
 public class ElectricFieldVolume : MonoBehaviour
 {
@@ -23,6 +24,26 @@ public class ElectricFieldVolume : MonoBehaviour
 
     [Header("Debug")]
     public bool logRatioDebug = false;
+
+    public float SmoothedVoltageMagnitude => Mathf.Abs(voltageSmooth);
+
+    // Read the ratio actually delivered to motion, rather than recomputing
+    // from an unsmoothed knob value in each visualization.
+    public bool TryGetBalanceState(SelectableDrop selected, out float ratio, out float tolerance)
+    {
+        ratio = 0f;
+        tolerance = 0f;
+        if (selected == null || !isActiveAndEnabled) return false;
+        Rigidbody rb = selected.GetComponent<Rigidbody>();
+        if (rb == null) rb = selected.GetComponentInParent<Rigidbody>();
+        if (rb == null) rb = selected.GetComponentInChildren<Rigidbody>();
+        if (rb == null || !bodies.Contains(rb)) return false;
+        OilDrop drop = rb.GetComponent<OilDrop>();
+        if (drop == null) return false;
+        ratio = drop.CurrentElectricFieldRatio;
+        tolerance = Mathf.Clamp(drop.hoverDeadZone, 0f, 0.99f);
+        return true;
+    }
 
     public bool HasBodiesInside => bodies.Count > 0;
     public event Action<bool> OnOccupiedStateChanged;
@@ -149,7 +170,6 @@ public class ElectricFieldVolume : MonoBehaviour
 
     private float CalculateHoverVoltage(Rigidbody rb, DropProperties dropProperties)
     {
-        float mass = Mathf.Max(1e-18f, dropProperties.MassKg);
         float charge = Mathf.Abs(dropProperties.ChargeC);
 
         if (charge < 1e-20f)
@@ -178,11 +198,13 @@ public class ElectricFieldVolume : MonoBehaviour
 
         float scale = Mathf.Max(1e-6f, fieldScale);
 
-        // PDF formula:
-        // F_el = F_G
-        // q * U / d = m * g
-        // U = m * g * d / q
-        return (mass * g * d) / (charge * scale);
+        float effectiveWeight = dropProperties.MassKg * g;
+
+        if (effectiveWeight <= 1e-20f)
+            return 0f;
+
+        // Simplified balance: F_el = F_G; q * U / d = m * g.
+        return (effectiveWeight * d) / (charge * scale);
     }
 
     private Rigidbody GetValidOilDropBody(Collider other)
@@ -238,3 +260,5 @@ public class ElectricFieldVolume : MonoBehaviour
         return 0f;
     }
 }
+
+

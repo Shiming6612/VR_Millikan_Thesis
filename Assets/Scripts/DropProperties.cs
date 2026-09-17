@@ -8,6 +8,10 @@ public class DropProperties : MonoBehaviour
     public float minRadiusMicrometer = 0.5f;
     public float maxRadiusMicrometer = 1.0f;
 
+    [Header("Surrounding Air")]
+    [Tooltip("Legacy field retained for compatibility; ignored by the no-buoyancy model.")]
+    public float airDensityKgPerM3 = 1.225f;
+
     [Header("Charge")]
     public int minChargeMultiple = 1;
     public int maxChargeMultiple = 12;
@@ -86,12 +90,12 @@ public class DropProperties : MonoBehaviour
         float gravity = 9.81f)
     {
         float radius = Mathf.Max(0.01f, radiusMicrometer);
-        float mass = CalculateMassFromRadius(radius);
+        float effectiveWeight = CalculateMassFromRadius(radius) * Mathf.Abs(gravity);
 
         float targetVoltage = Mathf.Max(1f, targetHoverVoltage);
         float d = Mathf.Max(0.0001f, plateSpacingMeters);
 
-        float requiredChargeC = mass * gravity * d / targetVoltage;
+        float requiredChargeC = effectiveWeight * d / targetVoltage;
         int chargeMultiple = Mathf.RoundToInt(requiredChargeC / (float)ElementaryCharge);
 
         chargeMultiple = Mathf.Clamp(
@@ -103,11 +107,34 @@ public class DropProperties : MonoBehaviour
         ApplyRadiusAndCharge(radius, chargeMultiple);
     }
 
+    public float GetBuoyancyForceNewton(float gravityMagnitude)
+    {
+        // Compatibility API: buoyancy is excluded from this simulation.
+        return 0f;
+    }
+
+    public float GetEffectiveWeightNewton(float gravityMagnitude)
+    {
+        float gravityForce = MassKg * Mathf.Abs(gravityMagnitude);
+        return Mathf.Max(0f, gravityForce);
+    }
+
+    private float CalculateEffectiveWeightFromRadius(float radiusMicrometer, float gravityMagnitude)
+    {
+        float volume = CalculateVolumeFromRadius(radiusMicrometer);
+        float densityDifference = Mathf.Max(0f, oilDensityKgPerM3);
+        return densityDifference * volume * Mathf.Abs(gravityMagnitude);
+    }
+
     private float CalculateMassFromRadius(float radiusMicrometer)
     {
+        return oilDensityKgPerM3 * CalculateVolumeFromRadius(radiusMicrometer);
+    }
+
+    private float CalculateVolumeFromRadius(float radiusMicrometer)
+    {
         float r = radiusMicrometer * 1e-6f;
-        float volume = (4f / 3f) * Mathf.PI * r * r * r;
-        return oilDensityKgPerM3 * volume;
+        return (4f / 3f) * Mathf.PI * r * r * r;
     }
 
     private void CacheVisualScale()
@@ -133,3 +160,5 @@ public class DropProperties : MonoBehaviour
         visualRoot.localScale = initialVisualScale * scaleRatio;
     }
 }
+
+

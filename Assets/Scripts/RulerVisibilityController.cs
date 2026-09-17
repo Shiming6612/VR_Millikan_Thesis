@@ -3,6 +3,7 @@ using UnityEngine;
 public class RulerVisibilityController : MonoBehaviour
 {
     [Header("Refs")]
+    // Retained to preserve existing Inspector references.
     public DropSelectionManager dropSelectionManager;
     public Renderer targetRenderer;
 
@@ -14,6 +15,11 @@ public class RulerVisibilityController : MonoBehaviour
         UpdateVisibility();
     }
 
+    private void OnEnable()
+    {
+        UpdateVisibility();
+    }
+
     private void Update()
     {
         UpdateVisibility();
@@ -21,12 +27,7 @@ public class RulerVisibilityController : MonoBehaviour
 
     private void UpdateVisibility()
     {
-        bool shouldShow = false;
-
-        if (dropSelectionManager != null)
-            shouldShow = dropSelectionManager.selectionEnabled;
-
         if (targetRenderer != null)
-            targetRenderer.enabled = shouldShow;
+            targetRenderer.enabled = true;
     }
 }

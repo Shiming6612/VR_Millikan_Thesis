@@ -25,7 +25,7 @@ public class SimpleForceArrowOverlay : MonoBehaviour
     public float electricMaxLength = 0.06f;
 
     [Header("Visibility")]
-    public bool showBuoyancyArrow = true;
+    public bool showBuoyancyArrow = false;
     public bool hideElectricWhenVoltageZero = true;
     public float minVoltageToShowElectric = 0.01f;
 
@@ -75,40 +75,29 @@ public class SimpleForceArrowOverlay : MonoBehaviour
 
     private void UpdateBuoyancyArrow()
     {
-        if (buoyancyArrow == null) return;
-
-        if (!showBuoyancyArrow)
-        {
+        // Always hidden: buoyancy is not part of this simulation.
+        if (buoyancyArrow != null)
             buoyancyArrow.gameObject.SetActive(false);
-            return;
-        }
-
-        buoyancyArrow.localPosition = buoyancyOffset;
-        SetArrow(buoyancyArrow, buoyancyLength, Vector3.up);
-        buoyancyArrow.gameObject.SetActive(true);
     }
 
     private void UpdateElectricArrow(SelectableDrop selected)
     {
         if (electricArrow == null) return;
 
-        float voltage = voltageSource != null ? Mathf.Abs(voltageSource.CurrentVoltage) : 0f;
-
-        if (hideElectricWhenVoltageZero && voltage <= minVoltageToShowElectric)
+        if (fieldVolume == null ||
+            !fieldVolume.TryGetBalanceState(selected, out float ratio, out float tolerance))
         {
             electricArrow.gameObject.SetActive(false);
             return;
         }
 
-        float hoverVoltage = GetHoverVoltage(selected);
-
-        if (hoverVoltage <= 1e-6f)
+        if (hideElectricWhenVoltageZero &&
+            fieldVolume.SmoothedVoltageMagnitude <= minVoltageToShowElectric)
         {
             electricArrow.gameObject.SetActive(false);
             return;
         }
 
-        float ratio = voltage / hoverVoltage;
         float length = gravityLength * ratio;
         length = Mathf.Clamp(length, electricMinLength, electricMaxLength);
 
@@ -125,7 +114,6 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         DropProperties dp = FindDropProperties(selected);
         if (dp == null) return 0f;
 
-        float mass = Mathf.Max(1e-18f, dp.MassKg);
         float charge = Mathf.Abs(dp.ChargeC);
         if (charge < 1e-20f) return 0f;
 
@@ -140,8 +128,9 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         float g = Mathf.Abs(Vector3.Dot(gravity, dir));
 
         float scale = Mathf.Max(1e-6f, fieldVolume.fieldScale);
+        float effectiveWeight = dp.MassKg * g;
 
-        return (mass * g * d) / (charge * scale);
+        return (effectiveWeight * d) / (charge * scale);
     }
 
     private Transform GetSelectedTargetTransform(SelectableDrop selected)
@@ -214,3 +203,5 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         if (electricArrow != null) electricArrow.gameObject.SetActive(false);
     }
 }
+
+

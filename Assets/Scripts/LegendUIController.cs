@@ -157,10 +157,11 @@ public class LegendUIController : MonoBehaviour
                 : "Voltage: --";
         }
 
-        bool correct =
-            canCalculate &&
-            voltageSource != null &&
-            Mathf.Abs(currentRounded - hoverRounded) <= toleranceV;
+        float ratio = 0f;
+        float balanceTolerance = 0f;
+        bool hasBalanceState = fieldVolume != null &&
+            fieldVolume.TryGetBalanceState(selected, out ratio, out balanceTolerance);
+        bool correct = hasBalanceState && Mathf.Abs(ratio - 1f) <= balanceTolerance;
 
         if (correct)
             ApplyCorrectStyle();
@@ -201,14 +202,14 @@ public class LegendUIController : MonoBehaviour
 
         if (hintText != null)
         {
-            if (!canCalculate || voltageSource == null)
+            if (!hasBalanceState)
                 hintText.text = "";
-            else if (currentRounded > hoverRounded + toleranceV)
-                hintText.text = "Status: Steigt";
-            else if (currentRounded < hoverRounded - toleranceV)
-                hintText.text = "Status: Fällt";
+            else if (ratio > 1f + balanceTolerance)
+                hintText.text = "Kraftbilanz: aufwärts";
+            else if (ratio < 1f - balanceTolerance)
+                hintText.text = "Kraftbilanz: abwärts";
             else
-                hintText.text = "Status: Schwebt";
+                hintText.text = "Kraftgleichgewicht (Toleranz)";
         }
     }
 
@@ -224,7 +225,6 @@ public class LegendUIController : MonoBehaviour
         if (dp == null)
             return false;
 
-        float mass = Mathf.Max(1e-18f, dp.MassKg);
         float charge = Mathf.Abs(dp.ChargeC);
 
         if (charge < 1e-20f)
@@ -247,11 +247,10 @@ public class LegendUIController : MonoBehaviour
 
         float scale = Mathf.Max(1e-6f, fieldVolume.fieldScale);
 
-        // PDF formula:
-        // F_el = F_G
-        // q * U / d = m * g
-        // U = m * g * d / q
-        hoverVoltage = (mass * g * d) / (charge * scale);
+        float effectiveWeight = dp.MassKg * g;
+
+        // Simplified balance: F_el = F_G; q * U / d = m * g.
+        hoverVoltage = (effectiveWeight * d) / (charge * scale);
 
         return hoverVoltage > 0f;
     }
@@ -361,3 +360,5 @@ public class LegendUIController : MonoBehaviour
         voltageText.fontSize = baseSize;
     }
 }
+
+

@@ -38,6 +38,9 @@ public class OilDrop : MonoBehaviour
     private bool activeDrop;
     private float launchStartTime;
 
+    public float CurrentElectricFieldRatio => electricFieldRatio;
+    public bool IsWithinBalanceTolerance => Mathf.Abs(electricFieldRatio - 1f) <= Mathf.Clamp(hoverDeadZone, 0f, 0.99f);
+
     private float electricFieldRatio = 0f;
     private bool receivedFieldRatioThisFrame = false;
 
@@ -138,7 +141,7 @@ public class OilDrop : MonoBehaviour
 
         float verticalSpeed;
 
-        if (Mathf.Abs(ratio - 1f) <= hoverDeadZone)
+        if (IsWithinBalanceTolerance)
         {
             verticalSpeed = 0f;
         }

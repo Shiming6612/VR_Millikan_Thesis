@@ -3,9 +3,12 @@ using UnityEngine;
 public class VisualizationModeController : MonoBehaviour
 {
     [Header("Visualization Switches")]
-    public bool showForceArrows = true;
+    public bool showForceArrows = false;
     public bool showTrailPath = false;
     public bool showFieldCloud = false;
+
+    [Header("Selection")]
+    public DropSelectionManager selectionManager;
 
     [Header("Force Arrows")]
     public GameObject[] forceArrowObjects;
@@ -16,6 +19,12 @@ public class VisualizationModeController : MonoBehaviour
     public bool TrailEnabled => showTrailPath;
     public bool ForceArrowsEnabled => showForceArrows;
     public bool FieldCloudEnabled => showFieldCloud;
+
+    private void Awake()
+    {
+        if (selectionManager == null)
+            selectionManager = FindFirstObjectByType<DropSelectionManager>();
+    }
 
     private void Start()
     {
@@ -43,7 +52,9 @@ public class VisualizationModeController : MonoBehaviour
     {
         showTrailPath = visible;
 
-        if (!showTrailPath)
+        if (showTrailPath)
+            ShowTrailForCurrentSelection();
+        else
             HideAllTrails();
 
         ApplyVisualizationSwitches();
@@ -60,6 +71,8 @@ public class VisualizationModeController : MonoBehaviour
         showForceArrows = true;
         showTrailPath = true;
         showFieldCloud = true;
+
+        ShowTrailForCurrentSelection();
         ApplyVisualizationSwitches();
     }
 
@@ -68,6 +81,8 @@ public class VisualizationModeController : MonoBehaviour
         showForceArrows = false;
         showTrailPath = false;
         showFieldCloud = false;
+
+        HideAllTrails();
         ApplyVisualizationSwitches();
     }
 
@@ -80,6 +95,29 @@ public class VisualizationModeController : MonoBehaviour
 
         if (fieldCloud != null)
             fieldCloud.SetVisualizationEnabled(showFieldCloud);
+    }
+
+    private void ShowTrailForCurrentSelection()
+    {
+        if (selectionManager == null)
+            selectionManager = FindFirstObjectByType<DropSelectionManager>();
+
+        SelectableDrop selected =
+            selectionManager != null ? selectionManager.CurrentSelected : null;
+
+        if (selected == null)
+            return;
+
+        SelectedDropletTrail trail = selected.GetComponent<SelectedDropletTrail>();
+
+        if (trail == null)
+            trail = selected.GetComponentInChildren<SelectedDropletTrail>();
+
+        if (trail == null)
+            trail = selected.GetComponentInParent<SelectedDropletTrail>();
+
+        if (trail != null)
+            trail.ShowTrail();
     }
 
     private void SetArrowVisibility(bool visible)

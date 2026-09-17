@@ -3,12 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))]
 public class FieldParticleCloudVisualizer : MonoBehaviour
 {
-    public enum CloudForceMode
-    {
-        ElectricForceRatio,
-        ForceImbalanceRatio
-    }
-
     [Header("Refs")]
     public DropSelectionManager selectionManager;
     public ElectricFieldVolume fieldVolume;
@@ -21,12 +15,12 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     public bool followSelectedDroplet = true;
     public Vector3 positionOffset = Vector3.zero;
 
-    [Header("Force Meaning")]
-    public CloudForceMode cloudForceMode = CloudForceMode.ElectricForceRatio;
-
-    [Header("Force Mapping")]
+    [Header("Hover Proximity Mapping")]
     [Range(0f, 1f)]
     public float minNormalizedForceToShow = 0.01f;
+
+    [Tooltip("Electric-force ratio distance from the hover point over which the cloud fades from full to empty. A value of 1 means ratios 0 and 2 are fully faded, while ratio 1 is fully visible.")]
+    public float hoverProximityFalloff = 1f;
 
     [Tooltip("Higher values make weak forces less visible and strong forces more dominant.")]
     public float densityResponsePower = 1.15f;
@@ -51,9 +45,15 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     public float burstInterval = 0.08f;
 
     [Header("Visual Style")]
-    public float cloudAlpha = 0.45f;
+    [Range(0f, 1f)]
+    public float minCloudAlpha = 0.08f;
+
+    [Range(0f, 1f)]
+    public float maxCloudAlpha = 0.75f;
+
     public float particleSize = 0.018f;
-    public Color fieldColor = new Color(0.176f, 0.612f, 0.859f, 1f);
+    public Color lowDensityColor = new Color(0.55f, 0.82f, 1f, 1f);
+    public Color highDensityColor = new Color(0.04f, 0.22f, 0.70f, 1f);
 
     [Header("Manual Test Fallback")]
     public bool fullCloudWhenManuallyAssignedWithoutDropData = true;
@@ -109,7 +109,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
         ApplyCloudShape();
         SetEmissionRate(0f);
-        ApplyColorGradient(0f);
+        ApplyColorGradient(lowDensityColor, 0f);
 
         ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
@@ -200,32 +200,20 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
     private float CalculateNormalizedForceValue(SelectableDrop selected)
     {
-        float electricRatio = CalculateElectricForceRatio(selected);
-
-        switch (cloudForceMode)
-        {
-            case CloudForceMode.ForceImbalanceRatio:
-                return Mathf.Clamp01(Mathf.Abs(electricRatio - 1f));
-
-            case CloudForceMode.ElectricForceRatio:
-            default:
-                return Mathf.Clamp01(electricRatio);
-        }
-    }
-
-    private float CalculateElectricForceRatio(SelectableDrop selected)
-    {
-        float voltage = voltageSource != null ? Mathf.Abs(voltageSource.CurrentVoltage) : 0f;
-
-        if (hideWhenVoltageZero && voltage <= minVoltageToShowCloud)
+        if (fieldVolume == null ||
+            !fieldVolume.TryGetBalanceState(selected, out float ratio, out float tolerance))
             return 0f;
 
-        float hoverVoltage = GetHoverVoltage(selected);
-
-        if (hoverVoltage <= 1e-6f)
+        if (hideWhenVoltageZero &&
+            fieldVolume.SmoothedVoltageMagnitude <= minVoltageToShowCloud)
             return 0f;
 
-        return voltage / hoverVoltage;
+        // The cloud reaches its maximum throughout the same balance band
+        // used by OilDrop. This indicates force balance, not zero velocity.
+        float deviation = Mathf.Abs(ratio - 1f);
+        if (deviation <= tolerance) return 1f;
+        float outerLimit = Mathf.Max(tolerance + 0.01f, hoverProximityFalloff);
+        return Mathf.Clamp01(1f - (deviation - tolerance) / (outerLimit - tolerance));
     }
 
     private float CalculateNormalizedElectricForceFromTransform(Transform target)
@@ -273,12 +261,14 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
         float emissionRate = Mathf.Lerp(minEmissionRate, maxEmissionRate, densityT);
         targetParticleCount = Mathf.RoundToInt(Mathf.Lerp(minCloudParticles, maxCloudParticles, densityT));
+        float currentAlpha = Mathf.Lerp(minCloudAlpha, maxCloudAlpha, densityT);
+        Color currentColor = Color.Lerp(lowDensityColor, highDensityColor, densityT);
 
         main.startSize = particleSize;
         main.maxParticles = Mathf.Max(1, maxCloudParticles);
 
         SetEmissionRate(emissionRate);
-        ApplyColorGradient(cloudAlpha);
+        ApplyColorGradient(currentColor, currentAlpha);
 
         if (!ps.isPlaying)
             ps.Play();
@@ -316,7 +306,6 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         if (dp == null)
             return 0f;
 
-        float mass = Mathf.Max(1e-18f, dp.MassKg);
         float charge = Mathf.Abs(dp.ChargeC);
 
         if (charge < 1e-20f)
@@ -335,8 +324,9 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         float g = Mathf.Abs(Vector3.Dot(gravity, dir));
 
         float scale = Mathf.Max(1e-6f, fieldVolume.fieldScale);
+        float effectiveWeight = dp.MassKg * g;
 
-        return (mass * g * d) / (charge * scale);
+        return (effectiveWeight * d) / (charge * scale);
     }
 
     private Transform GetSelectedTargetTransform(SelectableDrop selected)
@@ -412,7 +402,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         liveParticleCount = 0;
 
         SetEmissionRate(0f);
-        ApplyColorGradient(0f);
+        ApplyColorGradient(lowDensityColor, 0f);
 
         if (ps != null && ps.isPlaying)
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -425,7 +415,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         emission.rateOverTime = rate;
     }
 
-    private void ApplyColorGradient(float alpha)
+    private void ApplyColorGradient(Color color, float alpha)
     {
         colorOverLifetime.enabled = true;
 
@@ -434,10 +424,10 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         gradient.SetKeys(
             new GradientColorKey[]
             {
-                new GradientColorKey(fieldColor, 0f),
-                new GradientColorKey(fieldColor, 0.2f),
-                new GradientColorKey(fieldColor, 0.8f),
-                new GradientColorKey(fieldColor, 1f)
+                new GradientColorKey(color, 0f),
+                new GradientColorKey(color, 0.2f),
+                new GradientColorKey(color, 0.8f),
+                new GradientColorKey(color, 1f)
             },
             new GradientAlphaKey[]
             {
@@ -451,3 +441,5 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         colorOverLifetime.color = gradient;
     }
 }
+
+
