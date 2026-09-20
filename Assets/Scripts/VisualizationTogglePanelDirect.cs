@@ -6,6 +6,10 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
     [Header("Visualization Controller")]
     public VisualizationModeController visualizationController;
 
+    [Header("Interaction")]
+    [Tooltip("Disable to show the current visualization without allowing clicks.")]
+    public bool allowInteraction = true;
+
     [Header("UI Toggles")]
     public Toggle forceArrowsToggle;
     public Toggle forceImbalancePathsToggle;
@@ -15,22 +19,34 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
     [Tooltip("Use exactly the same Ray Origin as RadiusSliderController.")]
     public Transform rayOrigin;
 
-    public OVRInput.Button controlButton = OVRInput.Button.SecondaryIndexTrigger;
+    public OVRInput.Button controlButton =
+        OVRInput.Button.SecondaryIndexTrigger;
+
     public bool invertRayDirection = false;
 
     [Tooltip("Maximum controller-to-panel selection distance in metres.")]
     public float maxRayDistance = 2f;
 
-    [Tooltip("Additional clickable area around each Toggle RectTransform in canvas units.")]
+    [Tooltip("Additional clickable area in canvas units.")]
     public float hitPadding = 15f;
 
     private void Awake()
     {
         if (visualizationController == null)
-            visualizationController = FindFirstObjectByType<VisualizationModeController>();
+        {
+            visualizationController =
+                FindFirstObjectByType<VisualizationModeController>();
+        }
 
         AddListeners();
-        ResetAllToggles();
+        ApplyInteractionState();
+
+        // Keep the original startup behaviour for interactive use.
+        // Display-only mode must not reset the evaluation's settings.
+        if (allowInteraction)
+            ResetAllToggles();
+        else
+            SyncFromController();
     }
 
     private void OnDestroy()
@@ -40,7 +56,10 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
 
     private void Update()
     {
-        if (rayOrigin == null)
+        // Also supports changing the checkbox during Play mode.
+        ApplyInteractionState();
+
+        if (!allowInteraction || rayOrigin == null)
             return;
 
         if (!OVRInput.GetDown(controlButton))
@@ -50,6 +69,55 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
 
         if (hitToggle != null)
             hitToggle.isOn = !hitToggle.isOn;
+    }
+
+    private void LateUpdate()
+    {
+        // Reflect changes made by the evaluation controller.
+        SyncFromController();
+    }
+
+    public void SetInteractionEnabled(bool enabled)
+    {
+        allowInteraction = enabled;
+        ApplyInteractionState();
+        SyncFromController();
+    }
+
+    private void ApplyInteractionState()
+    {
+        if (forceArrowsToggle != null)
+            forceArrowsToggle.interactable = allowInteraction;
+
+        if (forceImbalancePathsToggle != null)
+            forceImbalancePathsToggle.interactable = allowInteraction;
+
+        if (fieldCloudToggle != null)
+            fieldCloudToggle.interactable = allowInteraction;
+    }
+
+    private void SyncFromController()
+    {
+        if (visualizationController == null)
+            return;
+
+        if (forceArrowsToggle != null)
+        {
+            forceArrowsToggle.SetIsOnWithoutNotify(
+                visualizationController.ForceArrowsEnabled);
+        }
+
+        if (forceImbalancePathsToggle != null)
+        {
+            forceImbalancePathsToggle.SetIsOnWithoutNotify(
+                visualizationController.TrailEnabled);
+        }
+
+        if (fieldCloudToggle != null)
+        {
+            fieldCloudToggle.SetIsOnWithoutNotify(
+                visualizationController.FieldCloudEnabled);
+        }
     }
 
     private Toggle FindToggleUnderControllerRay()
@@ -62,9 +130,17 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
         Toggle closestToggle = null;
         float closestDistance = float.MaxValue;
 
-        CheckToggleHit(forceArrowsToggle, ray, ref closestToggle, ref closestDistance);
-        CheckToggleHit(forceImbalancePathsToggle, ray, ref closestToggle, ref closestDistance);
-        CheckToggleHit(fieldCloudToggle, ray, ref closestToggle, ref closestDistance);
+        CheckToggleHit(
+            forceArrowsToggle, ray,
+            ref closestToggle, ref closestDistance);
+
+        CheckToggleHit(
+            forceImbalancePathsToggle, ray,
+            ref closestToggle, ref closestDistance);
+
+        CheckToggleHit(
+            fieldCloudToggle, ray,
+            ref closestToggle, ref closestDistance);
 
         return closestToggle;
     }
@@ -77,17 +153,19 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
     {
         if (candidate == null ||
             !candidate.isActiveAndEnabled ||
-            !candidate.interactable)
+            !candidate.IsInteractable())
         {
             return;
         }
 
-        RectTransform rectTransform = candidate.GetComponent<RectTransform>();
+        RectTransform rectTransform =
+            candidate.GetComponent<RectTransform>();
 
         if (rectTransform == null)
             return;
 
-        Plane plane = new Plane(rectTransform.forward, rectTransform.position);
+        Plane plane = new Plane(
+            rectTransform.forward, rectTransform.position);
 
         if (!plane.Raycast(ray, out float distance))
             return;
@@ -100,7 +178,9 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
         }
 
         Vector3 hitWorld = ray.GetPoint(distance);
-        Vector3 localPoint = rectTransform.InverseTransformPoint(hitWorld);
+        Vector3 localPoint =
+            rectTransform.InverseTransformPoint(hitWorld);
+
         Rect rect = rectTransform.rect;
 
         Rect clickableRect = new Rect(
@@ -109,8 +189,11 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
             rect.width + hitPadding * 2f,
             rect.height + hitPadding * 2f);
 
-        if (!clickableRect.Contains(new Vector2(localPoint.x, localPoint.y)))
+        if (!clickableRect.Contains(
+                new Vector2(localPoint.x, localPoint.y)))
+        {
             return;
+        }
 
         closestToggle = candidate;
         closestDistance = distance;
@@ -122,7 +205,10 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
             forceArrowsToggle.onValueChanged.AddListener(SetForceArrows);
 
         if (forceImbalancePathsToggle != null)
-            forceImbalancePathsToggle.onValueChanged.AddListener(SetForceImbalancePaths);
+        {
+            forceImbalancePathsToggle.onValueChanged.AddListener(
+                SetForceImbalancePaths);
+        }
 
         if (fieldCloudToggle != null)
             fieldCloudToggle.onValueChanged.AddListener(SetFieldCloud);
@@ -134,7 +220,10 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
             forceArrowsToggle.onValueChanged.RemoveListener(SetForceArrows);
 
         if (forceImbalancePathsToggle != null)
-            forceImbalancePathsToggle.onValueChanged.RemoveListener(SetForceImbalancePaths);
+        {
+            forceImbalancePathsToggle.onValueChanged.RemoveListener(
+                SetForceImbalancePaths);
+        }
 
         if (fieldCloudToggle != null)
             fieldCloudToggle.onValueChanged.RemoveListener(SetFieldCloud);
@@ -142,24 +231,48 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
 
     private void SetForceArrows(bool visible)
     {
+        if (!allowInteraction)
+        {
+            SyncFromController();
+            return;
+        }
+
         if (visualizationController != null)
             visualizationController.SetForceArrowsVisible(visible);
     }
 
     private void SetForceImbalancePaths(bool visible)
     {
+        if (!allowInteraction)
+        {
+            SyncFromController();
+            return;
+        }
+
         if (visualizationController != null)
             visualizationController.SetTrailPathVisible(visible);
     }
 
     private void SetFieldCloud(bool visible)
     {
+        if (!allowInteraction)
+        {
+            SyncFromController();
+            return;
+        }
+
         if (visualizationController != null)
             visualizationController.SetFieldCloudVisible(visible);
     }
 
     public void ResetAllToggles()
     {
+        if (!allowInteraction)
+        {
+            SyncFromController();
+            return;
+        }
+
         if (forceArrowsToggle != null)
             forceArrowsToggle.SetIsOnWithoutNotify(false);
 
