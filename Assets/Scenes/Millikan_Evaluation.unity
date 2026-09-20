@@ -7486,6 +7486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884f01077c5cbc149abfa1a07c217c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  participantId: P01
+  order: 2
   trialDropStart: {fileID: 1572073037}
   spraySpawner: {fileID: 1013421046}
   electricField: {fileID: 1664986258}
@@ -7494,6 +7496,16 @@ MonoBehaviour:
   experimentController: {fileID: 1135124188}
   radiusMicrometer: 0.75
   chargeMultiple: 3
+  voltageChange: 100
+  targetToleranceVolts: 5
+  status: Not started
+  currentVisualization: 
+  questionnaireCode: 
+  operatorInstruction: 
+  expectedAnswer: 
+  balanceVoltage: 0
+  targetVoltage: 0
+  currentVoltage: 0
 --- !u!1 &261477458
 GameObject:
   m_ObjectHideFlags: 0
@@ -21728,7 +21740,7 @@ Transform:
   m_GameObject: {fileID: 1572073036}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.683, y: 1.29, z: 1.236}
+  m_LocalPosition: {x: 0.683, y: 1.285, z: 1.254}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
