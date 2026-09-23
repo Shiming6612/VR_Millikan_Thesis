@@ -15,48 +15,58 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     public bool followSelectedDroplet = true;
     public Vector3 positionOffset = Vector3.zero;
 
-    [Header("Hover Proximity Mapping")]
-    [Range(0f, 1f)]
-    public float minNormalizedForceToShow = 0.01f;
+    [Header("Relative Force Imbalance")]
+    [Tooltip("Absolute difference between electric/gravity ratio and 1 at maximum density. 0.5 means ratios 0.5 and 1.5 reach maximum density.")]
+    [Min(0.01f)] public float imbalanceAtMaximumDensity = 0.5f;
 
-    [Tooltip("Electric-force ratio distance from the hover point over which the cloud fades from full to empty. A value of 1 means ratios 0 and 2 are fully faded, while ratio 1 is fully visible.")]
-    public float hoverProximityFalloff = 1f;
-
-    [Tooltip("Higher values make weak forces less visible and strong forces more dominant.")]
+    [Tooltip("1 = linear density response; larger values emphasize larger differences.")]
     public float densityResponsePower = 1.15f;
 
-    [Header("Voltage Visibility")]
-    public bool hideWhenVoltageZero = true;
-    public float minVoltageToShowCloud = 0.01f;
+    // Legacy serialized fields retained, but no longer used. Balance and
+    // zero voltage must remain visible when a valid droplet is selected.
+    [HideInInspector] public float minNormalizedForceToShow = 0.01f;
+    [HideInInspector] public float hoverProximityFalloff = 1f;
+    [HideInInspector] public bool hideWhenVoltageZero = false;
+    [HideInInspector] public float minVoltageToShowCloud = 0.01f;
 
     [Header("Cloud Shape")]
     public float cloudRadius = 0.6f;
 
     [Header("Particle Density")]
-    public float minEmissionRate = 5f;
-    public float maxEmissionRate = 320f;
+    [HideInInspector] public float minEmissionRate = 5f;
+    [HideInInspector] public float maxEmissionRate = 320f;
 
-    public int minCloudParticles = 40;
-    public int maxCloudParticles = 650;
+    public int minCloudParticles = 25;
+    public int maxCloudParticles = 200;
 
-    [Header("Immediate Density Fill")]
-    public bool useImmediateBurstFill = true;
-    public int maxBurstParticlesPerStep = 80;
-    public float burstInterval = 0.08f;
+    // Legacy emission controls: particle count is now maintained directly.
+    [HideInInspector] public bool useImmediateBurstFill = true;
+    [HideInInspector] public int maxBurstParticlesPerStep = 80;
+    [HideInInspector] public float burstInterval = 0.08f;
 
     [Header("Visual Style")]
     [Range(0f, 1f)]
-    public float minCloudAlpha = 0.08f;
+    public float minCloudAlpha = 0.22f;
 
     [Range(0f, 1f)]
-    public float maxCloudAlpha = 0.75f;
+    public float maxCloudAlpha = 0.85f;
 
     public float particleSize = 0.018f;
-    public Color lowDensityColor = new Color(0.55f, 0.82f, 1f, 1f);
-    public Color highDensityColor = new Color(0.04f, 0.22f, 0.70f, 1f);
+    [HideInInspector] public Color lowDensityColor = new Color(0.55f, 0.82f, 1f, 1f);
+    [HideInInspector] public Color highDensityColor = new Color(0.04f, 0.22f, 0.70f, 1f);
 
-    [Header("Manual Test Fallback")]
-    public bool fullCloudWhenManuallyAssignedWithoutDropData = true;
+    [Header("Imbalance Colors")]
+    public Color gravityDominantColor = new Color(0.05f, 0.12f, 0.80f, 1f);
+    public Color balanceTint = new Color(0.55f, 0.90f, 0.90f, 1f);
+    public Color electricDominantColor = new Color(0.08f, 0.65f, 0.12f, 1f);
+
+    [HideInInspector] public Color weakerForceColor;
+    [HideInInspector] public Color balancedForceColor;
+    [HideInInspector] public Color strongerForceColor;
+
+    // Legacy field retained for compatibility. A valid force reading is now
+    // required so a manual object cannot falsely indicate balance.
+    [HideInInspector] public bool fullCloudWhenManuallyAssignedWithoutDropData = true;
 
     [Header("Runtime")]
     public bool visualizationEnabled = false;
@@ -78,7 +88,9 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
     private BoxCollider fieldBox;
     private Transform currentTarget;
-    private float nextBurstTime;
+    private ParticleSystem.Particle[] particles;
+    private bool hasForceState;
+    private Color currentForceColor;
 
     private void Awake()
     {
@@ -102,16 +114,27 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
             fieldBox = fieldVolume.GetComponent<BoxCollider>();
 
         main.playOnAwake = false;
+        main.loop = true;
         main.simulationSpace = ParticleSystemSimulationSpace.Local;
         main.startSpeed = 0f;
+        // Neutral base color prevents the old blue Start Color tinting the palette.
+        main.startColor = Color.white;
         main.startSize = particleSize;
         main.maxParticles = Mathf.Max(1, maxCloudParticles);
 
         ApplyCloudShape();
         SetEmissionRate(0f);
-        ApplyColorGradient(lowDensityColor, 0f);
+        emission.enabled = false;
+        var colorBySpeed = ps.colorBySpeed;
+        colorBySpeed.enabled = false;
+        ApplyColorGradient(balanceTint, 0f);
 
         ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
+    private void OnDisable()
+    {
+        if (ps != null) HideCloud();
     }
 
     private void LateUpdate()
@@ -135,7 +158,6 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
         selectedDroplet = droplet;
         currentTarget = droplet;
-        nextBurstTime = 0f;
 
         if (ps != null)
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -152,6 +174,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         HideCloud();
     }
 
+    // Compatibility API: automatic force readings take precedence in LateUpdate.
     public void SetNormalizedForce(float normalizedForce)
     {
         currentNormalizedForce = Mathf.Clamp01(normalizedForce);
@@ -159,6 +182,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
     private void UpdateSelectedDropletAndForce()
     {
+        hasForceState = false;
         SelectableDrop selected = selectionManager != null ? selectionManager.CurrentSelected : null;
 
         if (selected == null)
@@ -189,7 +213,6 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         {
             currentTarget = target;
             selectedDroplet = target;
-            nextBurstTime = 0f;
 
             if (ps != null)
                 ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -204,21 +227,23 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
             !fieldVolume.TryGetBalanceState(selected, out float ratio, out float tolerance))
             return 0f;
 
-        if (hideWhenVoltageZero &&
-            fieldVolume.SmoothedVoltageMagnitude <= minVoltageToShowCloud)
-            return 0f;
+        if (float.IsNaN(ratio) || float.IsInfinity(ratio) ||
+            float.IsNaN(tolerance) || float.IsInfinity(tolerance)) return 0f;
 
-        // The cloud reaches its maximum throughout the same balance band
-        // used by OilDrop. This indicates force balance, not zero velocity.
+        hasForceState = true;
         float deviation = Mathf.Abs(ratio - 1f);
-        if (deviation <= tolerance) return 1f;
-        float outerLimit = Mathf.Max(tolerance + 0.01f, hoverProximityFalloff);
-        return Mathf.Clamp01(1f - (deviation - tolerance) / (outerLimit - tolerance));
+        tolerance = Mathf.Max(0f, tolerance);
+        float limit = Mathf.Max(tolerance + 0.01f, imbalanceAtMaximumDensity);
+        float strength = Mathf.Clamp01((deviation - tolerance) / (limit - tolerance));
+        Color extreme = ratio < 1f ? gravityDominantColor : electricDominantColor;
+        currentForceColor = Color.Lerp(balanceTint, extreme, strength);
+        // Within OilDrop's balance tolerance: a sparse, pale cyan cloud.
+        return strength;
     }
 
     private float CalculateNormalizedElectricForceFromTransform(Transform target)
     {
-        if (target == null)
+        if (target == null || !IsInsideField(target.position))
             return 0f;
 
         SelectableDrop selected = target.GetComponent<SelectableDrop>();
@@ -230,7 +255,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
             selected = target.GetComponentInChildren<SelectableDrop>();
 
         if (selected == null)
-            return fullCloudWhenManuallyAssignedWithoutDropData ? 1f : 0f;
+            return 0f;
 
         return CalculateNormalizedForceValue(selected);
     }
@@ -244,8 +269,8 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
         bool shouldShow =
             visualizationEnabled &&
-            selectedDroplet != null &&
-            currentNormalizedForce > minNormalizedForceToShow;
+            hasForceState &&
+            selectedDroplet != null;
 
         if (!shouldShow)
         {
@@ -259,74 +284,60 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         float t = Mathf.Clamp01(currentNormalizedForce);
         float densityT = Mathf.Pow(t, Mathf.Max(0.01f, densityResponsePower));
 
-        float emissionRate = Mathf.Lerp(minEmissionRate, maxEmissionRate, densityT);
-        targetParticleCount = Mathf.RoundToInt(Mathf.Lerp(minCloudParticles, maxCloudParticles, densityT));
+        int minimum = Mathf.Max(1, minCloudParticles);
+        int maximum = Mathf.Max(minimum, maxCloudParticles);
+        targetParticleCount = Mathf.RoundToInt(Mathf.Lerp(minimum, maximum, densityT));
         float currentAlpha = Mathf.Lerp(minCloudAlpha, maxCloudAlpha, densityT);
-        Color currentColor = Color.Lerp(lowDensityColor, highDensityColor, densityT);
+        // Hue identifies the dominant force. Density and opacity encode
+        // relative imbalance; all living particles update together.
+        Color currentColor = currentForceColor;
+        currentAlpha *= currentColor.a;
 
         main.startSize = particleSize;
-        main.maxParticles = Mathf.Max(1, maxCloudParticles);
+        main.maxParticles = maximum;
 
-        SetEmissionRate(emissionRate);
+        SetEmissionRate(0f);
+        emission.enabled = false;
         ApplyColorGradient(currentColor, currentAlpha);
 
         if (!ps.isPlaying)
             ps.Play();
 
+        SynchronizeParticleCount();
+    }
+
+    private void SynchronizeParticleCount()
+    {
+        // Direct count control works in BOTH directions. Emission alone would
+        // leave a dense cloud lingering after returning to balance.
+        int capacity = main.maxParticles;
+        if (particles == null || particles.Length < capacity)
+            particles = new ParticleSystem.Particle[capacity];
+
+        int count = ps.GetParticles(particles);
+        if (count > targetParticleCount)
+        {
+            count = targetParticleCount;
+            ps.SetParticles(particles, count);
+        }
+        if (count < targetParticleCount)
+            ps.Emit(targetParticleCount - count);
+
         liveParticleCount = ps.particleCount;
-
-        if (useImmediateBurstFill)
-            FillDensityWithBursts();
     }
 
-    private void FillDensityWithBursts()
+    [ContextMenu("Apply Imbalance Cloud Defaults")]
+    private void ApplyImbalanceCloudDefaults()
     {
-        if (Time.time < nextBurstTime)
-            return;
-
-        int missing = targetParticleCount - ps.particleCount;
-
-        if (missing <= 0)
-            return;
-
-        int emitCount = Mathf.Min(missing, Mathf.Max(1, maxBurstParticlesPerStep));
-
-        ps.Emit(emitCount);
-
-        nextBurstTime = Time.time + Mathf.Max(0.01f, burstInterval);
-    }
-
-    private float GetHoverVoltage(SelectableDrop selected)
-    {
-        if (selected == null || fieldVolume == null)
-            return 0f;
-
-        DropProperties dp = FindDropProperties(selected);
-
-        if (dp == null)
-            return 0f;
-
-        float charge = Mathf.Abs(dp.ChargeC);
-
-        if (charge < 1e-20f)
-            return 0f;
-
-        float d = fieldVolume.GetPlateSpacingMeters();
-
-        if (d <= 1e-6f)
-            return 0f;
-
-        Vector3 dir = fieldVolume.fieldDirection.sqrMagnitude > 1e-6f
-            ? fieldVolume.fieldDirection.normalized
-            : Vector3.up;
-
-        Vector3 gravity = GetGravityVector(selected);
-        float g = Mathf.Abs(Vector3.Dot(gravity, dir));
-
-        float scale = Mathf.Max(1e-6f, fieldVolume.fieldScale);
-        float effectiveWeight = dp.MassKg * g;
-
-        return (effectiveWeight * d) / (charge * scale);
+        imbalanceAtMaximumDensity = 0.5f;
+        densityResponsePower = 1.15f;
+        minCloudParticles = 25;
+        maxCloudParticles = 200;
+        minCloudAlpha = 0.22f;
+        maxCloudAlpha = 0.85f;
+        gravityDominantColor = new Color(0.05f, 0.12f, 0.80f, 1f);
+        balanceTint = new Color(0.55f, 0.90f, 0.90f, 1f);
+        electricDominantColor = new Color(0.08f, 0.65f, 0.12f, 1f);
     }
 
     private Transform GetSelectedTargetTransform(SelectableDrop selected)
@@ -350,42 +361,6 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         return fieldBox.bounds.Contains(position);
     }
 
-    private Vector3 GetGravityVector(SelectableDrop selected)
-    {
-        Vector3 gravity = Physics.gravity;
-
-        Rigidbody rb = selected.GetComponent<Rigidbody>();
-
-        if (rb == null)
-            rb = selected.GetComponentInParent<Rigidbody>();
-
-        if (rb == null)
-            rb = selected.GetComponentInChildren<Rigidbody>();
-
-        if (rb != null)
-        {
-            OilDrop oilDrop = rb.GetComponent<OilDrop>();
-
-            if (oilDrop != null)
-                gravity = oilDrop.customGravity;
-        }
-
-        return gravity;
-    }
-
-    private DropProperties FindDropProperties(SelectableDrop selected)
-    {
-        DropProperties dp = selected.GetComponent<DropProperties>();
-
-        if (dp == null)
-            dp = selected.GetComponentInParent<DropProperties>();
-
-        if (dp == null)
-            dp = selected.GetComponentInChildren<DropProperties>();
-
-        return dp;
-    }
-
     private void ApplyCloudShape()
     {
         shape.enabled = true;
@@ -400,11 +375,12 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     {
         targetParticleCount = 0;
         liveParticleCount = 0;
+        if (ps == null) return;
 
         SetEmissionRate(0f);
         ApplyColorGradient(lowDensityColor, 0f);
 
-        if (ps != null && ps.isPlaying)
+        if (ps != null)
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
@@ -431,15 +407,13 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
             },
             new GradientAlphaKey[]
             {
-                new GradientAlphaKey(0f, 0f),
+                new GradientAlphaKey(alpha, 0f),
                 new GradientAlphaKey(alpha, 0.2f),
                 new GradientAlphaKey(alpha, 0.8f),
-                new GradientAlphaKey(0f, 1f)
+                new GradientAlphaKey(alpha, 1f)
             }
         );
 
         colorOverLifetime.color = gradient;
     }
 }
-
-

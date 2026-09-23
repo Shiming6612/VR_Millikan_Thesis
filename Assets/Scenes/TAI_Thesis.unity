@@ -5100,15 +5100,16 @@ MonoBehaviour:
   selectedDroplet: {fileID: 0}
   followSelectedDroplet: 1
   positionOffset: {x: 0, y: 0, z: 0}
+  imbalanceAtMaximumDensity: 0.5
+  densityResponsePower: 1.15
   minNormalizedForceToShow: 0.01
   hoverProximityFalloff: 1
-  densityResponsePower: 1.15
   hideWhenVoltageZero: 1
   minVoltageToShowCloud: 0.01
-  cloudRadius: 0.8
+  cloudRadius: 1.2
   minEmissionRate: 5
   maxEmissionRate: 150
-  minCloudParticles: 10
+  minCloudParticles: 20
   maxCloudParticles: 200
   useImmediateBurstFill: 1
   maxBurstParticlesPerStep: 40
@@ -5118,6 +5119,12 @@ MonoBehaviour:
   particleSize: 0.018
   lowDensityColor: {r: 0.55, g: 0.82, b: 1, a: 1}
   highDensityColor: {r: 0.04, g: 0.22, b: 0.7, a: 1}
+  gravityDominantColor: {r: 0.05, g: 0.12, b: 0.8, a: 1}
+  balanceTint: {r: 0.55, g: 0.9, b: 0.9, a: 1}
+  electricDominantColor: {r: 0.08, g: 0.65, b: 0.12, a: 1}
+  weakerForceColor: {r: 0, g: 0.45, b: 0.7, a: 1}
+  balancedForceColor: {r: 0, g: 0.7, b: 0.32, a: 1}
+  strongerForceColor: {r: 0.9, g: 0.4, b: 0.05, a: 1}
   fullCloudWhenManuallyAssignedWithoutDropData: 1
   visualizationEnabled: 0
   currentNormalizedForce: 0
@@ -21594,6 +21601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualizationController: {fileID: 1493159052}
+  allowInteraction: 1
   forceArrowsToggle: {fileID: 14279219}
   forceImbalancePathsToggle: {fileID: 138081508}
   fieldCloudToggle: {fileID: 629859303}

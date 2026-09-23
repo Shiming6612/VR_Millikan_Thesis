@@ -5100,24 +5100,31 @@ MonoBehaviour:
   selectedDroplet: {fileID: 0}
   followSelectedDroplet: 1
   positionOffset: {x: 0, y: 0, z: 0}
+  imbalanceAtMaximumDensity: 0.5
+  densityResponsePower: 1.15
   minNormalizedForceToShow: 0.01
   hoverProximityFalloff: 1
-  densityResponsePower: 1.15
   hideWhenVoltageZero: 1
   minVoltageToShowCloud: 0.01
   cloudRadius: 0.8
   minEmissionRate: 5
   maxEmissionRate: 150
-  minCloudParticles: 10
-  maxCloudParticles: 200
+  minCloudParticles: 20
+  maxCloudParticles: 250
   useImmediateBurstFill: 1
   maxBurstParticlesPerStep: 40
   burstInterval: 0.08
-  minCloudAlpha: 0.08
-  maxCloudAlpha: 0.75
+  minCloudAlpha: 0.2
+  maxCloudAlpha: 1
   particleSize: 0.018
   lowDensityColor: {r: 0.55, g: 0.82, b: 1, a: 1}
   highDensityColor: {r: 0.04, g: 0.22, b: 0.7, a: 1}
+  gravityDominantColor: {r: 0.05, g: 0.12, b: 0.8, a: 1}
+  balanceTint: {r: 0.55, g: 0.9, b: 0.9, a: 1}
+  electricDominantColor: {r: 0.08, g: 0.65, b: 0.12, a: 1}
+  weakerForceColor: {r: 0, g: 0, b: 0, a: 0}
+  balancedForceColor: {r: 0, g: 0, b: 0, a: 0}
+  strongerForceColor: {r: 0, g: 0, b: 0, a: 0}
   fullCloudWhenManuallyAssignedWithoutDropData: 1
   visualizationEnabled: 0
   currentNormalizedForce: 0
@@ -7487,6 +7494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantId: P01
+  conditionPlanId: PILOT
   order: 2
   trialDropStart: {fileID: 1572073037}
   spraySpawner: {fileID: 1013421046}
@@ -7496,16 +7504,42 @@ MonoBehaviour:
   experimentController: {fileID: 1135124188}
   radiusMicrometer: 0.75
   chargeMultiple: 3
-  voltageChange: 100
-  targetToleranceVolts: 5
+  radiusMultipliers:
+  - 0.9
+  - 1
+  - 1.1
+  arrowsConditions: 000000000100000002000000
+  pathsConditions: 020000000000000001000000
+  cloudConditions: 020000000000000001000000
+  relativeDeviation: 0.2
+  resetDelayAfterPlateContact: 1
+  upperPlateRoot: {fileID: 716725257}
+  lowerPlateRoot: {fileID: 161541437}
+  answerDelayAfterBoost: 0.75
+  voltageIncrease: 100
+  stationarySpeedThreshold: 0.0005
+  closeToBalanceLimit: 0.1
+  observationSpeedLimit: 0.03
+  useSharedTaskConditions: 1
+  replayNumber: 0
+  waitingForPlateReset: 0
+  contactedPlate: 
+  initialBalanceAnswer: 
+  initialForceAnswer: 
+  sampledMotionAnswer: 
+  sampledVerticalSpeed: 0
+  sampledForceRatio: 0
+  appliedVoltageIncrease: 0
+  enableKeyboardControls: 1
+  stage: 0
   status: Not started
   currentVisualization: 
   questionnaireCode: 
-  operatorInstruction: 
   expectedAnswer: 
   balanceVoltage: 0
   targetVoltage: 0
-  currentVoltage: 0
+  conditionLogPath: 
+  stepIndex: -1
 --- !u!1 &261477458
 GameObject:
   m_ObjectHideFlags: 0
@@ -12542,6 +12576,11 @@ MonoBehaviour:
   pulseMultiplier: 1.15
   pulseSpeed: 2.5
   useUnscaledTime: 0
+--- !u!4 &716725257 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7974748984141318687, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+  m_PrefabInstance: {fileID: 1135124187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &720000550
 GameObject:
   m_ObjectHideFlags: 0
@@ -18026,6 +18065,10 @@ PrefabInstance:
       propertyPath: electricOffset.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2654860105659830256, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: electricMaxWidthMultiplier
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 2706406118041585235, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -18146,6 +18189,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7746493589270759983, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746493589270759983, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746493589270759983, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 8162746702356376741, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
       propertyPath: m_MotionVectors
       value: 2
@@ -18154,6 +18209,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 33e18d00b87a79d4fad71afa2b8de878, type: 2}
+    - target: {fileID: 8251434116587697745, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251434116587697745, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 8664019706713178299, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
       propertyPath: m_MotionVectors
       value: 2
@@ -21285,8 +21348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showForceArrows: 1
-  showTrailPath: 1
-  showFieldCloud: 1
+  showTrailPath: 0
+  showFieldCloud: 0
   selectionManager: {fileID: 19367244}
   forceArrowObjects:
   - {fileID: 176610954}
@@ -21670,7 +21733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualizationController: {fileID: 1493159052}
-  allowInteraction: 0
+  allowInteraction: 1
   forceArrowsToggle: {fileID: 14279219}
   forceImbalancePathsToggle: {fileID: 138081508}
   fieldCloudToggle: {fileID: 629859303}

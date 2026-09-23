@@ -183,6 +183,7 @@ MonoBehaviour:
   oilDensityKgPerM3: 875.3
   minRadiusMicrometer: 0.5
   maxRadiusMicrometer: 1
+  airDensityKgPerM3: 1.225
   minChargeMultiple: 1
   maxChargeMultiple: 12
   randomizeOnSpawn: 0
@@ -327,3 +328,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4360511c4ff3e1549bb4caaf6ee24480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualizationModeController: {fileID: 0}
+  minSpeedToShow: 0.002
+  maxSpeedForFullTrail: 0.035
+  minWidth: 0.002
+  maxWidth: 0.05
+  minTime: 0.5
+  maxTime: 6
+  lowSpeedColor: {r: 0.914, g: 0.667, b: 0.053, a: 0.714}
+  highSpeedColor: {r: 0.784, g: 0.105, b: 0.493, a: 0.761}
+  weakerForceColor: {r: 0, g: 0.45, b: 0.7, a: 1}
+  balancedForceColor: {r: 0, g: 0.7, b: 0.32, a: 1}
+  strongerForceColor: {r: 0.9, g: 0.4, b: 0.05, a: 1}
+  fieldVolume: {fileID: 0}
+  trailOpacity: 0.75
+  isSelected: 0

@@ -5,8 +5,6 @@ using System.Globalization;
 using System.IO;
 using UnityEngine;
 
-// Replacement for Assets/Scripts/EvaluationController.cs.
-// Manual timing and verbal answers: no response timer or automatic scoring.
 public class EvaluationController : MonoBehaviour
 {
     public enum VisualizationOrder
@@ -17,11 +15,11 @@ public class EvaluationController : MonoBehaviour
     }
     public enum Condition { Weaker, Balanced, Stronger }
     private enum Method { Arrows, Paths, Cloud }
-    private enum Stage { Preparing, Ready, Observing, Record, Exploring, Review, Invalid, Finished, Error }
+    private enum Stage { Preparing, Ready, Observing, Exploring, Invalid, Finished, Error }
 
     [Header("Participant - Set Before Play")]
     public string participantId = "P01";
-    public string conditionPlanId = "PILOT";
+    public string conditionPlanId = "REPLAY_PILOT";
     public VisualizationOrder order = VisualizationOrder.O1_Arrows_Paths_Cloud;
 
     [Header("References - Keep Existing Assignments")]
@@ -43,6 +41,28 @@ public class EvaluationController : MonoBehaviour
     public Condition[] cloudConditions = { Condition.Stronger, Condition.Weaker, Condition.Balanced };
     [Range(0.05f, 0.9f)]
     public float relativeDeviation = 0.2f;
+
+    [Header("Part B Replay")]
+    [Min(0f)] public float resetDelayAfterPlateContact = 1f;
+    public Transform upperPlateRoot;
+    public Transform lowerPlateRoot;
+    [Min(0.05f)] public float answerDelayAfterBoost = 0.75f;
+    [Min(1f)] public float voltageIncrease = 100f;
+    [Min(0.00001f)] public float stationarySpeedThreshold = 0.0005f;
+    [Range(0.04f, 0.9f)] public float closeToBalanceLimit = 0.1f;
+    [Min(0.001f)] public float observationSpeedLimit = 0.03f;
+    public bool useSharedTaskConditions = true;
+
+    [Header("Replay Readout")]
+    [SerializeField] private int replayNumber;
+    [SerializeField] private bool waitingForPlateReset;
+    [SerializeField] private string contactedPlate;
+    [SerializeField] private string initialBalanceAnswer;
+    [SerializeField] private string initialForceAnswer;
+    [SerializeField] private string sampledMotionAnswer;
+    [SerializeField] private float sampledVerticalSpeed;
+    [SerializeField] private float sampledForceRatio;
+    [SerializeField] private float appliedVoltageIncrease;
 
     [Header("Researcher Keyboard Controls")]
     public bool enableKeyboardControls = true;
@@ -70,6 +90,19 @@ public class EvaluationController : MonoBehaviour
     private string sessionId, planId;
     private int methodIndex, taskIndex, attempt = 1;
     private bool exploring;
+
+    [SerializeField] private int stepIndex = -1;
+    private readonly int[] attempts = new int[12];
+    private bool initialized;
+    private bool boosted;
+    private bool answerSampled;
+    private bool baselineSampled;
+    private float cycleStart;
+    private float boostTime;
+    private float plateContactTime;
+    private bool originalDestroyOnCollision;
+    private float originalMaxSpeed;
+    private EvaluationReplayCollision collisionMonitor;
     private readonly HashSet<KeyCode> heldKeys = new HashSet<KeyCode>();
     private readonly CultureInfo culture = CultureInfo.InvariantCulture;
 
@@ -78,7 +111,7 @@ public class EvaluationController : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return null; // Let knob.Start finish first.
+        yield return null;
         if (trialDropStart == null || spraySpawner == null || spraySpawner.dropPrefab == null ||
             electricField == null || !electricField.isActiveAndEnabled ||
             electricField.voltageSource == null || selectionManager == null ||
@@ -97,6 +130,21 @@ public class EvaluationController : MonoBehaviour
             yield break;
         }
 
+        if (float.IsNaN(resetDelayAfterPlateContact) || float.IsInfinity(resetDelayAfterPlateContact) ||
+            resetDelayAfterPlateContact < 0f || !Positive(answerDelayAfterBoost) ||
+            !Positive(voltageIncrease) || !Positive(observationSpeedLimit) ||
+            !Positive(stationarySpeedThreshold) || !Positive(closeToBalanceLimit))
+        {
+            Fail("Check contact reset delay, voltage increase, speed and answer settings.");
+            yield break;
+        }
+        if (upperPlateRoot == null) upperPlateRoot = electricField.upperPlate;
+        if (lowerPlateRoot == null) lowerPlateRoot = electricField.lowerPlate;
+        if (!HasActiveCollider(upperPlateRoot) || !HasActiveCollider(lowerPlateRoot))
+        {
+            Fail("Assign upper and lower plate roots with enabled Colliders on them or their children.");
+            yield break;
+        }
         sessionId = participantId;
         planId = conditionPlanId;
         sessionCharge = chargeMultiple;
@@ -107,6 +155,11 @@ public class EvaluationController : MonoBehaviour
             (Condition[])pathsConditions.Clone(),
             (Condition[])cloudConditions.Clone()
         };
+        if (useSharedTaskConditions)
+        {
+            conditions[1] = (Condition[])conditions[0].Clone();
+            conditions[2] = (Condition[])conditions[0].Clone();
+        }
         radii = new float[3];
         for (int i = 0; i < 3; i++)
         {
@@ -136,19 +189,29 @@ public class EvaluationController : MonoBehaviour
             Fail("Droplet requires DropProperties, SelectableDrop and Rigidbody.");
             yield break;
         }
+        originalMaxSpeed = trialDrop.maxVerticalSpeed;
+        originalDestroyOnCollision = trialDrop.destroyOnCollision;
+        collisionMonitor = trialDrop.gameObject.AddComponent<EvaluationReplayCollision>();
+        collisionMonitor.UpperPlate = upperPlateRoot;
+        collisionMonitor.LowerPlate = lowerPlateRoot;
         properties.randomizeOnSpawn = false;
+        if (closeToBalanceLimit <= trialDrop.hoverDeadZone)
+        {
+            Fail("Close-to-balance limit must exceed the droplet balance tolerance.");
+            yield break;
+        }
         if (deviation <= Mathf.Clamp(trialDrop.hoverDeadZone, 0f, 0.99f) + 0.01f)
         {
             Fail("Deviation must exceed the droplet balance tolerance by more than 0.01.");
             yield break;
         }
-        // Validate all three parameter sets before beginning any observations.
+
         for (int i = 0; i < 3; i++)
         {
             properties.ApplyRadiusAndCharge(radii[i], sessionCharge);
             float voltage = CalculateBalanceVoltage();
             if (!Positive(voltage) || voltage * (1f - deviation) < knob.minVoltage ||
-                voltage * (1f + deviation) > knob.maxVoltage)
+                voltage * (1f + deviation) + voltageIncrease > knob.maxVoltage)
             {
                 Fail("A task voltage is outside the knob range. Check all radii and charge.");
                 yield break;
@@ -161,26 +224,40 @@ public class EvaluationController : MonoBehaviour
             conditionLogPath = Path.Combine(folder,
                 "conditions_" + Guid.NewGuid().ToString("N") + ".csv");
             File.WriteAllText(conditionLogPath,
-                "participant,plan,order,method,task,attempt,event,condition,expected,radius_um,charge_n,balance_V,target_V\n");
+                "participant,plan,order,method,task,attempt,event,condition,expected,radius_um,charge_n,balance_V,target_V,replay,time_s,waiting_plate_reset,boosted,command_V,smoothed_V,ratio,velocity_y,initial_balance,initial_force,sampled_motion,sampled_velocity_y,sampled_ratio,boost_delta_V\n");
         }
         catch (Exception e) { Fail("Cannot create condition log: " + e.Message); yield break; }
 
         Debug.Log("[Evaluation] Condition log: " + conditionLogPath, this);
-        yield return Prepare(false);
+        initialized = true;
+        stage = Stage.Ready;
+        status = "Ready. 3 = begin Part B; 1 = previous step. Manual timing only.";
+        Debug.Log("[Evaluation] " + status, this);
     }
 
     private IEnumerator Prepare(bool manual)
     {
         stage = Stage.Preparing;
         exploring = manual;
-        status = "Preparing - do not start the stopwatch yet";
+        status = "Preparing replay";
+        RestoreDropMotion();
+        trialDrop.destroyOnCollision = manual ? originalDestroyOnCollision : false;
+        waitingForPlateReset = false;
+        contactedPlate = "";
+        trialDrop.maxVerticalSpeed = manual ? originalMaxSpeed : Mathf.Min(originalMaxSpeed, observationSpeedLimit);
+        boosted = answerSampled = baselineSampled = false;
+        sampledMotionAnswer = "Not sampled";
+        initialBalanceAnswer = initialForceAnswer = "Not sampled";
+        expectedAnswer = "Not sampled";
+        sampledVerticalSpeed = sampledForceRatio = 0f;
+        appliedVoltageIncrease = 0f;
+        collisionMonitor.ClearContact();
         knob.SetInteractionEnabled(false);
         visualizationController.HideAllVisualizations();
         selectionManager.ClearSelectionAndHover();
         trialDrop.ResetDrop();
         yield return new WaitForFixedUpdate();
 
-        // Manual exploration always uses the middle-sized droplet.
         properties.ApplyRadiusAndCharge(radii[manual ? 1 : taskIndex], sessionCharge);
         balanceVoltage = CalculateBalanceVoltage();
         float factor = manual || CurrentCondition == Condition.Balanced ? 1f :
@@ -188,9 +265,9 @@ public class EvaluationController : MonoBehaviour
         targetVoltage = balanceVoltage * factor;
         currentVisualization = CurrentMethod.ToString();
         questionnaireCode = Prefix() + (manual ? "RATE / " + Prefix() + "COM" : "T" + (taskIndex + 1));
-        expectedAnswer = manual ? "-" : CurrentCondition == Condition.Balanced ? "Yes" : "No";
+        expectedAnswer = manual ? "-" : "Not sampled";
 
-        knob.SetVoltageFromExternal(balanceVoltage);
+        knob.SetVoltageFromExternal(targetVoltage);
         trialDrop.launchPhaseDuration = 30f;
         trialDrop.Launch(trialDropStart.position, Vector3.zero);
         float deadline = Time.realtimeSinceStartup + 10f;
@@ -199,7 +276,7 @@ public class EvaluationController : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
             if (Inside(out float ratio, out float tolerance) &&
-                Mathf.Abs(ratio - 1f) <= Mathf.Min(0.001f, Mathf.Max(0.00001f, tolerance)))
+                Mathf.Abs(ratio - factor) <= Mathf.Min(0.001f, Mathf.Max(0.00001f, tolerance)))
             {
                 balanced = true;
                 break;
@@ -214,115 +291,212 @@ public class EvaluationController : MonoBehaviour
         body.angularVelocity = Vector3.zero;
         trialDrop.launchPhaseDuration = 0f;
         selectionManager.SetSelected(selectable);
-        // Selection callbacks may show visuals, so explicitly hide them again.
+
         visualizationController.HideAllVisualizations();
         if (manual)
         {
             ShowMethod();
             knob.SetInteractionEnabled(true);
             stage = Stage.Exploring;
-            status = "Hands-on: knob unlocked. 2 = reset; 5 = end and fill Part C.";
+            status = "Part C: knob unlocked. Complete exploration and ratings, then 3. 1 = previous step.";
+            LogEvent("exploration_started");
+            Debug.Log("[Evaluation] " + questionnaireCode + " - " + status, this);
         }
         else
         {
-            stage = Stage.Ready;
-            status = "Ready: 1 = start observation AND your manual stopwatch.";
             LogEvent("prepared");
+            if (stage == Stage.Error) yield break;
+            StartObservation();
         }
     }
 
     private void Update()
     {
-        if (stage == Stage.Observing && !Inside(out _, out _))
+        if (stage != Stage.Observing) return;
+        if (waitingForPlateReset)
         {
-            LogEvent("invalid_outside_field");
-            HideAndRemove();
-            stage = Stage.Invalid;
-            status = "Invalid: droplet left field. Discard timing; press 2 to repeat.";
-        }
-    }
-
-    public void StartTask()
-    {
-        if (stage != Stage.Ready) return;
-        if (!Inside(out _, out _))
-        {
-            stage = Stage.Invalid;
-            status = "Drop outside field. Press 2.";
+            if (Time.time - plateContactTime >= resetDelayAfterPlateContact)
+                RestartReplay();
             return;
         }
+        if (collisionMonitor.HasPlateContact)
+        {
+            waitingForPlateReset = true;
+            contactedPlate = collisionMonitor.PlateName;
+            plateContactTime = Time.time;
+            if (boosted && !answerSampled)
+            {
+                sampledMotionAnswer = "Not sampled: plate reached before observation cue";
+                expectedAnswer = "Invalid motion observation";
+            }
+            LogEvent("plate_contact");
+            if (stage == Stage.Error) return;
+            body.linearVelocity = Vector3.zero;
+            body.angularVelocity = Vector3.zero;
+            trialDrop.enabled = false;
+            body.isKinematic = true;
+            status = "Plate contact: " + contactedPlate + ". Reset to initial voltage after delay. 3 = next; 1 = previous.";
+            Debug.Log("[Evaluation] " + status, this);
+            return;
+        }
+        if (!Inside(out _, out _))
+        {
+            LogEvent("invalid_outside_field_without_plate_contact");
+            if (stage == Stage.Error) return;
+            HideAndRemove();
+            stage = Stage.Invalid;
+            status = "Drop left field without plate contact. Check plate colliders and collision layers. 3 = retry; 1 = previous.";
+            Debug.LogWarning(status, this);
+            return;
+        }
+        float elapsed = Time.time - cycleStart;
+        if (!baselineSampled && elapsed >= 0.1f)
+            CaptureBaseline();
+        if (stage == Stage.Error) return;
+        if (boosted && !answerSampled && Time.time - boostTime >= answerDelayAfterBoost)
+        {
+            answerSampled = true;
+            sampledVerticalSpeed = body.linearVelocity.y;
+            Inside(out sampledForceRatio, out _);
+            sampledMotionAnswer = Mathf.Abs(sampledVerticalSpeed) <= stationarySpeedThreshold
+                ? "Stationary" : sampledVerticalSpeed > 0f ? "Moving upward" : "Moving downward";
+            expectedAnswer = sampledMotionAnswer;
+            status = "OBSERVE NOW. Researcher-only answer: " + sampledMotionAnswer;
+            LogEvent("motion_sample");
+            Debug.Log("[Evaluation OBSERVE NOW] " + questionnaireCode + " replay " + replayNumber + " - " + sampledMotionAnswer, this);
+        }
+        if (stage == Stage.Error) return;
+    }
+
+    private void CaptureBaseline()
+    {
+        if (!Inside(out float ratio, out float tolerance)) return;
+        baselineSampled = true;
+        float difference = Mathf.Abs(ratio - 1f);
+        initialBalanceAnswer = difference <= tolerance ? "Balanced" :
+            difference <= closeToBalanceLimit ? "Close to balanced" : "Far from balanced";
+        initialForceAnswer = difference <= tolerance ? "Approximately equal" :
+            ratio < 1f ? "Smaller" : "Greater";
+        LogEvent("baseline_sample");
+    }
+
+    public void IncreaseVoltage()
+    {
+        if (!initialized || exploring || stage != Stage.Observing ||
+            waitingForPlateReset || collisionMonitor.HasPlateContact || boosted) return;
+        ApplyBoost();
+    }
+
+    private void ApplyBoost()
+    {
+        if (boosted) return;
+        if (!baselineSampled) CaptureBaseline();
+        if (stage == Stage.Error) return;
+        float command = targetVoltage + voltageIncrease;
+        if (command > knob.maxVoltage || command < knob.minVoltage)
+        {
+            Fail("Requested boost is outside the voltage range.");
+            return;
+        }
+        boosted = true;
+        boostTime = Time.time;
+        appliedVoltageIncrease = voltageIncrease;
+        knob.SetVoltageFromExternal(command);
+        status = "Voltage increased. Wait for OBSERVE NOW.";
+        LogEvent("voltage_increased");
+    }
+
+    private void RestartReplay()
+    {
+        HideAndRemove();
+        replayNumber++;
+        StartCoroutine(Prepare(false));
+    }
+
+    private void StartObservation()
+    {
         knob.SetInteractionEnabled(false);
         knob.SetVoltageFromExternal(targetVoltage);
         ShowMethod();
         stage = Stage.Observing;
-        status = "Observing: stop manual stopwatch at verbal answer; then press 5.";
-        LogEvent("started");
+        cycleStart = Time.time;
+        collisionMonitor.ClearContact();
+        status = "Initial voltage. 5 = +100 V once this replay. Plate contact resets this task. 3 = next; 1 = previous.";
+        LogEvent("observation_started");
+        if (stage != Stage.Error)
+            Debug.Log("[Evaluation START] " + questionnaireCode + " - " + status, this);
     }
 
-    public void FinishObservationOrExploration()
+    public void NextStep()
     {
-        if (stage == Stage.Observing)
+        if (!initialized || stage == Stage.Error || stage == Stage.Finished) return;
+        if (stage == Stage.Invalid)
         {
-            LogEvent("observation_closed"); // NOT a response-time measurement.
-            if (stage == Stage.Error) return;
-            HideAndRemove();
-            stage = Stage.Record;
-            status = "Record answer, confidence and manual time. Then press 3.";
-        }
-        else if (stage == Stage.Exploring)
-        {
-            HideAndRemove();
-            stage = Stage.Review;
-            status = "Fill this method's Part C. After completion press 4.";
-        }
-    }
-
-    public void NextTask()
-    {
-        if (stage != Stage.Record) return;
-        if (taskIndex < 2)
-        {
-            taskIndex++;
-            attempt = 1;
-            StartCoroutine(Prepare(false));
-        }
-        else StartCoroutine(Prepare(true));
-    }
-
-    public void PrepareAgain()
-    {
-        if (stage == Stage.Preparing || stage == Stage.Error || stage == Stage.Finished) return;
-        if (stage == Stage.Review) return;
-        if (!exploring)
-        {
-            LogEvent("retry_previous_attempt_excluded");
-            if (stage == Stage.Error) return;
-            attempt++;
-        }
-        StartCoroutine(Prepare(exploring));
-    }
-
-    public void NextVisualization()
-    {
-        if (stage != Stage.Review) return;
-        if (methodIndex == methods.Length - 1)
-        {
-            stage = Stage.Finished;
-            status = "VR complete. Remove headset and fill Part D.";
+            EnterStep(stepIndex, "retry_invalid");
             return;
         }
-        methodIndex++;
-        taskIndex = 0;
-        attempt = 1;
-        StartCoroutine(Prepare(false));
+        EnterStep(stepIndex + 1, "forward");
+    }
+
+    public void PreviousStep()
+    {
+        if (!initialized || stage == Stage.Error || stepIndex < 0) return;
+
+        EnterStep(Mathf.Max(0, stepIndex - 1), "backward");
+    }
+
+    private void EnterStep(int destination, string navigation)
+    {
+        StopAllCoroutines();
+        if (stepIndex >= 0 && stepIndex < 12)
+        {
+
+            LogEvent("leave_" + navigation);
+            if (stage == Stage.Error) return;
+        }
+        HideAndRemove();
+        stepIndex = destination;
+        replayNumber = 1;
+        waitingForPlateReset = false;
+        boosted = false;
+        if (stepIndex >= 12)
+        {
+            stage = Stage.Finished;
+            questionnaireCode = "Part D";
+            expectedAnswer = "-";
+            status = "VR complete. Remove headset and fill Part D. 1 = return to final Part C block.";
+            Debug.Log("[Evaluation] " + status, this);
+            return;
+        }
+
+        exploring = stepIndex >= 9;
+        methodIndex = exploring ? stepIndex - 9 : stepIndex / 3;
+        taskIndex = exploring ? 0 : stepIndex % 3;
+        attempt = ++attempts[stepIndex];
+        StartCoroutine(Prepare(exploring));
     }
 
     private void HideAndRemove()
     {
+        RestoreDropMotion();
         knob.SetInteractionEnabled(false);
         visualizationController.HideAllVisualizations();
         selectionManager.ClearSelectionAndHover();
         trialDrop.ResetDrop();
+    }
+
+    private void RestoreDropMotion()
+    {
+        if (body != null) body.isKinematic = false;
+        if (trialDrop != null) trialDrop.enabled = true;
+    }
+
+    private bool HasActiveCollider(Transform root)
+    {
+        if (root == null) return false;
+        foreach (Collider collider in root.GetComponentsInChildren<Collider>())
+            if (collider.enabled && collider.gameObject.activeInHierarchy) return true;
+        return false;
     }
 
     private void ShowMethod()
@@ -373,10 +547,17 @@ public class EvaluationController : MonoBehaviour
         {
             string[] fields = {
                 sessionId, planId, string.Join("-", methods), CurrentMethod.ToString(),
-                Prefix() + "T" + (taskIndex + 1), attempt.ToString(), eventName,
-                CurrentCondition.ToString(), expectedAnswer,
+                questionnaireCode, attempt.ToString(), eventName,
+                exploring ? "Exploration" : CurrentCondition.ToString(), expectedAnswer,
                 properties.RadiusMicrometer.ToString("R", culture), sessionCharge.ToString(),
-                balanceVoltage.ToString("R", culture), targetVoltage.ToString("R", culture)
+                balanceVoltage.ToString("R", culture), targetVoltage.ToString("R", culture),
+                replayNumber.ToString(), Time.time.ToString("R", culture), waitingForPlateReset.ToString(), boosted.ToString(),
+                (targetVoltage + (boosted ? appliedVoltageIncrease : 0f)).ToString("R", culture),
+                electricField.SmoothedVoltageMagnitude.ToString("R", culture),
+                trialDrop.CurrentElectricFieldRatio.ToString("R", culture), body.linearVelocity.y.ToString("R", culture),
+                initialBalanceAnswer, initialForceAnswer, sampledMotionAnswer,
+                sampledVerticalSpeed.ToString("R", culture), sampledForceRatio.ToString("R", culture),
+                appliedVoltageIncrease.ToString("R", culture)
             };
             File.AppendAllText(conditionLogPath, string.Join(",", Array.ConvertAll(fields, Csv)) + "\n");
         }
@@ -405,9 +586,7 @@ public class EvaluationController : MonoBehaviour
         switch (e.keyCode)
         {
             case KeyCode.Alpha1: case KeyCode.Keypad1: key = 1; break;
-            case KeyCode.Alpha2: case KeyCode.Keypad2: key = 2; break;
             case KeyCode.Alpha3: case KeyCode.Keypad3: key = 3; break;
-            case KeyCode.Alpha4: case KeyCode.Keypad4: key = 4; break;
             case KeyCode.Alpha5: case KeyCode.Keypad5: key = 5; break;
         }
         if (key == 0) return;
@@ -418,15 +597,18 @@ public class EvaluationController : MonoBehaviour
         if (!first) return;
         switch (key)
         {
-            case 1: StartTask(); break;
-            case 2: PrepareAgain(); break;
-            case 3: NextTask(); break;
-            case 4: NextVisualization(); break;
-            case 5: FinishObservationOrExploration(); break;
+            case 1: PreviousStep(); break;
+            case 3: NextStep(); break;
+            case 5: IncreaseVoltage(); break;
         }
     }
     private void OnApplicationFocus(bool focus) { if (!focus) heldKeys.Clear(); }
-    private void OnDisable() { heldKeys.Clear(); }
+    private void OnDisable()
+    {
+        heldKeys.Clear();
+        StopAllCoroutines();
+        if (initialized) HideAndRemove();
+    }
     private void OnDestroy() { if (trialDrop != null) Destroy(trialDrop.gameObject); }
     private void Fail(string message)
     {
@@ -434,7 +616,43 @@ public class EvaluationController : MonoBehaviour
         status = message;
         if (knob != null) knob.SetInteractionEnabled(false);
         if (visualizationController != null) visualizationController.HideAllVisualizations();
+        RestoreDropMotion();
         if (trialDrop != null) trialDrop.ResetDrop();
         Debug.LogError("[Evaluation] " + message, this);
     }
+}
+
+public class EvaluationReplayCollision : MonoBehaviour
+{
+    public Transform UpperPlate { get; set; }
+    public Transform LowerPlate { get; set; }
+    public bool HasPlateContact { get; private set; }
+    public string PlateName { get; private set; }
+
+    public void ClearContact()
+    {
+        HasPlateContact = false;
+        PlateName = "";
+    }
+
+    private void CheckContact(Collider other)
+    {
+        if (HasPlateContact || other == null) return;
+        Transform target = other.transform;
+        if (UpperPlate != null && (target == UpperPlate || target.IsChildOf(UpperPlate)))
+        {
+            HasPlateContact = true;
+            PlateName = "Upper plate";
+        }
+        else if (LowerPlate != null && (target == LowerPlate || target.IsChildOf(LowerPlate)))
+        {
+            HasPlateContact = true;
+            PlateName = "Lower plate";
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision) { CheckContact(collision.collider); }
+    private void OnCollisionStay(Collision collision) { CheckContact(collision.collider); }
+    private void OnTriggerEnter(Collider other) { CheckContact(other); }
+    private void OnTriggerStay(Collider other) { CheckContact(other); }
 }
