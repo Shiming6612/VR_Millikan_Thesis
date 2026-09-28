@@ -7495,7 +7495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   participantId: P01
   conditionPlanId: PILOT
-  order: 2
+  order: 1
   trialDropStart: {fileID: 1572073037}
   spraySpawner: {fileID: 1013421046}
   electricField: {fileID: 1664986258}
@@ -7508,9 +7508,9 @@ MonoBehaviour:
   - 0.9
   - 1
   - 1.1
-  arrowsConditions: 000000000100000002000000
+  arrowsConditions: 010000000000000002000000
   pathsConditions: 020000000000000001000000
-  cloudConditions: 020000000000000001000000
+  cloudConditions: 000000000100000002000000
   relativeDeviation: 0.2
   resetDelayAfterPlateContact: 1
   upperPlateRoot: {fileID: 716725257}
@@ -10875,7 +10875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7573062778247953910, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8761369621357815808, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       propertyPath: m_SizeDelta.x
@@ -18033,6 +18033,10 @@ PrefabInstance:
       propertyPath: rayOrigin
       value: 
       objectReference: {fileID: 612010862}
+    - target: {fileID: 1860737623071074400, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1912711927873938693, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -18291,6 +18295,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: caf8d6f82c623d84992cb31e4824855a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1135124189 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8108186973789141562, guid: 4d101447fe6d63446ae31c8d10057c1d, type: 3}
+  m_PrefabInstance: {fileID: 1135124187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da89b1fd5ded4094fba35f3cc9a57048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1138782289
@@ -19657,7 +19672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7991233661914552199, guid: efc6556b5c2008c4787adbecaa1ebabd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.202
+      value: -0.164
       objectReference: {fileID: 0}
     - target: {fileID: -7991233661914552199, guid: efc6556b5c2008c4787adbecaa1ebabd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19665,7 +19680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7991233661914552199, guid: efc6556b5c2008c4787adbecaa1ebabd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.359
+      value: 1.193
       objectReference: {fileID: 0}
     - target: {fileID: -7991233661914552199, guid: efc6556b5c2008c4787adbecaa1ebabd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19701,7 +19716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4718321122667862160, guid: efc6556b5c2008c4787adbecaa1ebabd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8847300442217520431, guid: efc6556b5c2008c4787adbecaa1ebabd, type: 3}
       propertyPath: m_Enabled
@@ -21348,8 +21363,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showForceArrows: 1
-  showTrailPath: 0
-  showFieldCloud: 0
+  showTrailPath: 1
+  showFieldCloud: 1
   selectionManager: {fileID: 19367244}
   forceArrowObjects:
   - {fileID: 176610954}
@@ -23756,7 +23771,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763505009}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6094e8f6636c0004d8c8abcb79c27ffd, type: 3}
   m_Name: 
@@ -23862,6 +23877,65 @@ MonoBehaviour:
   pageSfxSource: {fileID: 0}
   bookPageSfx: {fileID: 0}
   componentsToDisableDuringTutorial: []
+--- !u!114 &1763505011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763505009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8644d1d6caa1741bd9c7f870d1c601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueRoot: {fileID: 1763505009}
+  dialogueText: {fileID: 993038999}
+  buttonHintText: {fileID: 773414059}
+  millikanProfessor: {fileID: 793288280}
+  voltageKnob: {fileID: 324148793}
+  visualizations: {fileID: 1493159052}
+  fieldVolume: {fileID: 1664986258}
+  selectionManager: {fileID: 19367244}
+  oilDropPrefab: {fileID: 605211576867155500, guid: 2a9d8ccc0e8724846851c143fe4dda25, type: 3}
+  visualizationTogglePanel: {fileID: 1557107519}
+  partCExperimentController: {fileID: 0}
+  partCSpraySpawner: {fileID: 0}
+  partCBulbs: []
+  partCStartingVoltage: 0
+  legacyControllersToDisable:
+  - {fileID: 1959261222}
+  - {fileID: 1135124188}
+  - {fileID: 1763505010}
+  - {fileID: 1135124189}
+  - {fileID: 244916175}
+  - {fileID: 362294475}
+  - {fileID: 1557107519}
+  - {fileID: 920785543}
+  - {fileID: 2143403422}
+  - {fileID: 1013421046}
+  legacyScanCompleted: 1
+  evaluationController: {fileID: 0}
+  visualizationOrder: 000000000100000002000000
+  orderCaptured: 0
+  capturedOrderName: 
+  beginOnStart: 1
+  hoverVoltage: 500
+  risingVoltage: 600
+  fallingVoltage: 350
+  statePreparationSeconds: 0.6
+  observationCenter: {fileID: 0}
+  repeatObservationAtBoundary: 1
+  observationAreaFraction: 0.6
+  voltageIncrease: 100
+  voltageTolerance: 10
+  requiredStableSeconds: 1
+  enlargeExistingDialogue: 1
+  panelSize: {x: 900, y: 430}
+  textSize: {x: 840, y: 330}
+  navigationDebounceSeconds: 0.18
+  logPageChanges: 1
+  preparationTimeoutSeconds: 4
 --- !u!1 &1769021601
 GameObject:
   m_ObjectHideFlags: 0
@@ -26489,7 +26563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7573062778247953910, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8761369621357815808, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       propertyPath: m_SizeDelta.x
@@ -27263,7 +27337,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959261221}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b59851c49baa334cbb9bbb6446b83bb, type: 3}
   m_Name: 
@@ -28563,7 +28637,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143403419}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f52d6c66e74555341b4a99e81841af6d, type: 3}
   m_Name: 
@@ -28705,7 +28779,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3990722849787077967, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       propertyPath: m_text
-      value: "A = Weiter / Starten    \nB = Zur\xFCck"
+      value: '
+
+        A = Next   B = Back'
       objectReference: {fileID: 0}
     - target: {fileID: 4250141102386495240, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       propertyPath: m_Pivot.x
@@ -28831,6 +28907,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7573062778247953910, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1763505011}
     - targetCorrespondingSourceObject: {fileID: 7573062778247953910, guid: 46deeac1c5af94b45994284690e725c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1763505010}
