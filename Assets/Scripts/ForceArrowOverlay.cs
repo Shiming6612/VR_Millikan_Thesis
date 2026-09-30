@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[DefaultExecutionOrder(100)]
 public class SimpleForceArrowOverlay : MonoBehaviour
 {
     [Header("Refs")]
@@ -19,7 +20,6 @@ public class SimpleForceArrowOverlay : MonoBehaviour
     public Vector3 electricOffset = Vector3.zero;
 
     [Header("Shared Arrow Plane")]
-    [Tooltip("World-space Z offset shared by both arrows. Individual arrow offset Z values are ignored.")]
     public float sharedPlaneDepth = 0f;
 
     [Header("Lengths")]
@@ -40,6 +40,10 @@ public class SimpleForceArrowOverlay : MonoBehaviour
     public float minVoltageToShowElectric = 0.01f;
 
     private BoxCollider fieldBox;
+    private VisualizationModeController visualizationController;
+    private Renderer[] gravityRenderers;
+    private Renderer[] buoyancyRenderers;
+    private Renderer[] electricRenderers;
     private float fallbackWidth = 0.1f;
 
     private void Awake()
@@ -47,17 +51,76 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         if (electricArrow != null)
             fallbackWidth = electricArrow.localScale.y;
 
-        if (fieldVolume != null)
-            fieldBox = fieldVolume.GetComponent<BoxCollider>();
-
+        CacheRenderers();
+        ResolveReferences();
         HideAll();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        SelectableDrop selected = selectionManager != null ? selectionManager.CurrentSelected : null;
+        HideAll();
+    }
 
-        if (selected == null)
+    private void Start()
+    {
+        ResolveReferences();
+    }
+
+    private void CacheRenderers()
+    {
+        gravityRenderers = gravityArrow != null
+            ? gravityArrow.GetComponentsInChildren<Renderer>(true) : null;
+        buoyancyRenderers = buoyancyArrow != null
+            ? buoyancyArrow.GetComponentsInChildren<Renderer>(true) : null;
+        electricRenderers = electricArrow != null
+            ? electricArrow.GetComponentsInChildren<Renderer>(true) : null;
+    }
+
+    private void ResolveReferences()
+    {
+        if (fieldVolume != null)
+        {
+            fieldBox = fieldVolume.GetComponent<BoxCollider>();
+            if (voltageSource == null)
+                voltageSource = fieldVolume.voltageSource;
+        }
+
+        if (visualizationController != null)
+            return;
+
+        VisualizationModeController[] controllers =
+            FindObjectsByType<VisualizationModeController>(
+                FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (VisualizationModeController controller in controllers)
+        {
+            if (controller.gameObject.scene != gameObject.scene)
+                continue;
+
+            if (selectionManager != null && controller.selectionManager != null &&
+                controller.selectionManager != selectionManager)
+                continue;
+
+            visualizationController = controller;
+            break;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (visualizationController != null &&
+            (!visualizationController.isActiveAndEnabled ||
+             !visualizationController.ForceArrowsEnabled))
+        {
+            HideAll();
+            return;
+        }
+
+        SelectableDrop selected = selectionManager != null &&
+            selectionManager.isActiveAndEnabled
+            ? selectionManager.CurrentSelected : null;
+
+        if (selected == null || !selected.gameObject.activeInHierarchy)
         {
             HideAll();
             return;
@@ -72,48 +135,43 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         }
 
         transform.position = target.position + overlayOffset;
-
         UpdateGravityArrow();
-        UpdateBuoyancyArrow();
+        SetVisible(buoyancyArrow, buoyancyRenderers, false);
         UpdateElectricArrow(selected);
     }
 
     private void UpdateGravityArrow()
     {
-        if (gravityArrow == null) return;
+        if (gravityArrow == null)
+            return;
 
         gravityArrow.position = GetArrowPosition(gravityOffset);
         SetArrow(gravityArrow, gravityLength, Vector3.down);
-        gravityArrow.gameObject.SetActive(true);
-    }
-
-    private void UpdateBuoyancyArrow()
-    {
-        if (buoyancyArrow != null)
-            buoyancyArrow.gameObject.SetActive(false);
+        SetVisible(gravityArrow, gravityRenderers, true);
     }
 
     private void UpdateElectricArrow(SelectableDrop selected)
     {
-        if (electricArrow == null) return;
+        if (electricArrow == null)
+            return;
+
+        VoltageKnobInput source = fieldVolume != null && fieldVolume.voltageSource != null
+            ? fieldVolume.voltageSource : voltageSource;
+
+        float threshold = hideElectricWhenVoltageZero
+            ? Mathf.Max(0.000001f, minVoltageToShowElectric) : 0.000001f;
 
         if (fieldVolume == null ||
-            !fieldVolume.TryGetBalanceState(selected, out float ratio, out float tolerance))
+            (source != null && Mathf.Abs(source.CurrentVoltage) <= threshold) ||
+            fieldVolume.SmoothedVoltageMagnitude <= threshold ||
+            !fieldVolume.TryGetBalanceState(selected, out float ratio, out float tolerance) ||
+            float.IsNaN(ratio) || float.IsInfinity(ratio) || ratio <= 0f)
         {
-            electricArrow.gameObject.SetActive(false);
+            SetVisible(electricArrow, electricRenderers, false);
             return;
         }
 
-        if (hideElectricWhenVoltageZero &&
-            fieldVolume.SmoothedVoltageMagnitude <= minVoltageToShowElectric)
-        {
-            electricArrow.gameObject.SetActive(false);
-            return;
-        }
-
-        float length = gravityLength * ratio;
-        length = Mathf.Clamp(length, electricMinLength, electricMaxLength);
-
+        float length = Mathf.Clamp(gravityLength * ratio, electricMinLength, electricMaxLength);
         electricArrow.position = GetArrowPosition(electricOffset);
         SetArrow(electricArrow, length, Vector3.up);
 
@@ -127,25 +185,30 @@ public class SimpleForceArrowOverlay : MonoBehaviour
         Vector3 scale = electricArrow.localScale;
         scale.y = baseWidth * widthMultiplier;
         electricArrow.localScale = scale;
-        electricArrow.gameObject.SetActive(true);
+        SetVisible(electricArrow, electricRenderers, true);
     }
 
     private Transform GetSelectedTargetTransform(SelectableDrop selected)
     {
         Rigidbody rb = selected.GetComponent<Rigidbody>();
-
         if (rb == null)
             rb = selected.GetComponentInParent<Rigidbody>();
-
         if (rb == null)
             rb = selected.GetComponentInChildren<Rigidbody>();
-
         return rb != null ? rb.transform : selected.transform;
     }
 
     private bool IsInsideField(Vector3 position)
     {
-        return fieldBox != null && fieldBox.bounds.Contains(position);
+        if (fieldVolume == null || !fieldVolume.isActiveAndEnabled ||
+            fieldBox == null || !fieldBox.enabled || !fieldBox.gameObject.activeInHierarchy)
+            return false;
+
+        Vector3 local = fieldBox.transform.InverseTransformPoint(position) - fieldBox.center;
+        Vector3 half = fieldBox.size * 0.5f;
+        return Mathf.Abs(local.x) <= half.x &&
+               Mathf.Abs(local.y) <= half.y &&
+               Mathf.Abs(local.z) <= half.z;
     }
 
     private Vector3 GetArrowPosition(Vector3 offset)
@@ -157,10 +220,23 @@ public class SimpleForceArrowOverlay : MonoBehaviour
     {
         float angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
         arrow.rotation = Quaternion.Euler(0f, 0f, angle);
-
         Vector3 scale = arrow.localScale;
         scale.x = length;
         arrow.localScale = scale;
+    }
+
+    private static void SetVisible(Transform arrow, Renderer[] renderers, bool visible)
+    {
+        if (arrow == null)
+            return;
+
+        if (renderers != null)
+            foreach (Renderer renderer in renderers)
+                if (renderer != null)
+                    renderer.enabled = visible;
+
+        if (arrow.gameObject.activeSelf != visible)
+            arrow.gameObject.SetActive(visible);
     }
 
     private void OnDisable()
@@ -170,8 +246,8 @@ public class SimpleForceArrowOverlay : MonoBehaviour
 
     private void HideAll()
     {
-        if (gravityArrow != null) gravityArrow.gameObject.SetActive(false);
-        if (buoyancyArrow != null) buoyancyArrow.gameObject.SetActive(false);
-        if (electricArrow != null) electricArrow.gameObject.SetActive(false);
+        SetVisible(gravityArrow, gravityRenderers, false);
+        SetVisible(buoyancyArrow, buoyancyRenderers, false);
+        SetVisible(electricArrow, electricRenderers, false);
     }
 }

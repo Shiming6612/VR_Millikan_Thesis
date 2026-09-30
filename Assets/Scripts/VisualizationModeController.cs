@@ -122,7 +122,7 @@ public class VisualizationModeController : MonoBehaviour
 
     private void SetArrowVisibility(bool visible)
     {
-        if (forceArrowObjects == null)
+        if (visible || forceArrowObjects == null)
             return;
 
         foreach (GameObject obj in forceArrowObjects)
@@ -130,16 +130,9 @@ public class VisualizationModeController : MonoBehaviour
             if (obj == null)
                 continue;
 
-            if (visible)
-                obj.SetActive(true);
-
             Renderer[] renderers = obj.GetComponentsInChildren<Renderer>(true);
             foreach (Renderer renderer in renderers)
-                renderer.enabled = visible;
-
-            LineRenderer[] lineRenderers = obj.GetComponentsInChildren<LineRenderer>(true);
-            foreach (LineRenderer lineRenderer in lineRenderers)
-                lineRenderer.enabled = visible;
+                renderer.enabled = false;
         }
     }
 

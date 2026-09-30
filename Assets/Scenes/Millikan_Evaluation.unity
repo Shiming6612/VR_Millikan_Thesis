@@ -7495,7 +7495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   participantId: P01
   conditionPlanId: PILOT
-  order: 1
+  order: 0
   trialDropStart: {fileID: 1572073037}
   spraySpawner: {fileID: 1013421046}
   electricField: {fileID: 1664986258}
