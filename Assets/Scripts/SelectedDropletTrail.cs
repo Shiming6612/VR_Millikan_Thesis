@@ -18,7 +18,7 @@ public class SelectedDropletTrail : MonoBehaviour
     public float minTime = 0.2f;
     public float maxTime = 4.0f;
 
-    // Retained for serialized compatibility; color now represents force state.
+  
     [HideInInspector]
     public Color lowSpeedColor =
         new Color(0.914f, 0.667f, 0.053f, 0.714f);
@@ -96,8 +96,6 @@ public class SelectedDropletTrail : MonoBehaviour
 
         lastPosition = transform.position;
 
-        // Use the same smoothed force ratio and balance band as droplet motion.
-        // No force data means no state color, rather than a guessed state.
         if (fieldVolume == null || selectable == null ||
             !fieldVolume.TryGetBalanceState(selectable, out float ratio, out float tolerance))
         {
@@ -177,8 +175,7 @@ public class SelectedDropletTrail : MonoBehaviour
 
         float width = Mathf.Lerp(minWidth, maxWidth, t);
         float time = Mathf.Lerp(minTime, maxTime, t);
-        // Width/lifetime still encode speed. The WHOLE visible trail uses
-        // current force-state color; it is not a history of past force colors.
+     
         Color color = currentForceColor;
 
         trail.emitting = true;
@@ -211,4 +208,3 @@ public class SelectedDropletTrail : MonoBehaviour
         return gradient;
     }
 }
-

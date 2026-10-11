@@ -56,7 +56,7 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
 
     private void Update()
     {
-        // Also supports changing the checkbox during Play mode.
+  
         ApplyInteractionState();
 
         if (!allowInteraction || rayOrigin == null)
@@ -73,7 +73,7 @@ public class VisualizationTogglePanelDirect : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Reflect changes made by the evaluation controller.
+
         SyncFromController();
     }
 

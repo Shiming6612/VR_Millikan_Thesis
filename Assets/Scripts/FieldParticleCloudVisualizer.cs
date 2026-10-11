@@ -22,8 +22,6 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     [Tooltip("1 = linear density response; larger values emphasize larger differences.")]
     public float densityResponsePower = 1.15f;
 
-    // Legacy serialized fields retained, but no longer used. Balance and
-    // zero voltage must remain visible when a valid droplet is selected.
     [HideInInspector] public float minNormalizedForceToShow = 0.01f;
     [HideInInspector] public float hoverProximityFalloff = 1f;
     [HideInInspector] public bool hideWhenVoltageZero = false;
@@ -39,7 +37,6 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     public int minCloudParticles = 25;
     public int maxCloudParticles = 200;
 
-    // Legacy emission controls: particle count is now maintained directly.
     [HideInInspector] public bool useImmediateBurstFill = true;
     [HideInInspector] public int maxBurstParticlesPerStep = 80;
     [HideInInspector] public float burstInterval = 0.08f;
@@ -64,8 +61,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
     [HideInInspector] public Color balancedForceColor;
     [HideInInspector] public Color strongerForceColor;
 
-    // Legacy field retained for compatibility. A valid force reading is now
-    // required so a manual object cannot falsely indicate balance.
+  
     [HideInInspector] public bool fullCloudWhenManuallyAssignedWithoutDropData = true;
 
     [Header("Runtime")]
@@ -117,7 +113,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         main.loop = true;
         main.simulationSpace = ParticleSystemSimulationSpace.Local;
         main.startSpeed = 0f;
-        // Neutral base color prevents the old blue Start Color tinting the palette.
+      
         main.startColor = Color.white;
         main.startSize = particleSize;
         main.maxParticles = Mathf.Max(1, maxCloudParticles);
@@ -174,7 +170,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         HideCloud();
     }
 
-    // Compatibility API: automatic force readings take precedence in LateUpdate.
+ 
     public void SetNormalizedForce(float normalizedForce)
     {
         currentNormalizedForce = Mathf.Clamp01(normalizedForce);
@@ -237,7 +233,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         float strength = Mathf.Clamp01((deviation - tolerance) / (limit - tolerance));
         Color extreme = ratio < 1f ? gravityDominantColor : electricDominantColor;
         currentForceColor = Color.Lerp(balanceTint, extreme, strength);
-        // Within OilDrop's balance tolerance: a sparse, pale cyan cloud.
+      
         return strength;
     }
 
@@ -288,8 +284,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
         int maximum = Mathf.Max(minimum, maxCloudParticles);
         targetParticleCount = Mathf.RoundToInt(Mathf.Lerp(minimum, maximum, densityT));
         float currentAlpha = Mathf.Lerp(minCloudAlpha, maxCloudAlpha, densityT);
-        // Hue identifies the dominant force. Density and opacity encode
-        // relative imbalance; all living particles update together.
+       
         Color currentColor = currentForceColor;
         currentAlpha *= currentColor.a;
 
@@ -308,8 +303,7 @@ public class FieldParticleCloudVisualizer : MonoBehaviour
 
     private void SynchronizeParticleCount()
     {
-        // Direct count control works in BOTH directions. Emission alone would
-        // leave a dense cloud lingering after returning to balance.
+      
         int capacity = main.maxParticles;
         if (particles == null || particles.Length < capacity)
             particles = new ParticleSystem.Particle[capacity];
